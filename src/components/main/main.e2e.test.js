@@ -1,5 +1,5 @@
 import React from "react";
-import Enzyme, {shallow} from "enzyme";
+import Enzyme, {shallow, mount} from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 import Main from "./main.jsx";
 
@@ -14,15 +14,27 @@ const FilmPromo = {
 };
 
 const films = [
-  {title: `Fantastic Beasts`},
-  {title: `Bohemian Rhapsody`},
-  {title: `Macbeth`}
+  {
+    id: 0,
+    title: `Fantastic Beasts`,
+    img: `img/fantastic-beasts-the-crimes-of-grindelwald.jpg`
+  },
+  {
+    id: 1,
+    title: `Bohemian Rhapsody`,
+    img: `img/bohemian-rhapsody.jpg`
+  },
+  {
+    id: 3,
+    title: `Macbeth`,
+    img: `img/macbeth.jpg`
+  },
 ];
 
 it(`Should title button be pressed`, () => {
   const onTitleButtonClick = jest.fn();
 
-  const main = shallow(
+  const main = mount(
       <Main
         filmPromoName={FilmPromo.name}
         filmPromoGenre={FilmPromo.genre}

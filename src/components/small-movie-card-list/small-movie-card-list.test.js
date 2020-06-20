@@ -1,13 +1,6 @@
 import React from "react";
 import renderer from "react-test-renderer";
-import App from "./app.jsx";
-import Main from "../main/main";
-
-const FilmPromo = {
-  name: `The Grand Budapest Hotel`,
-  genre: `Horor`,
-  releaseDate: 2010,
-};
+import MovieList from "./small-movie-card-list.jsx";
 
 const films = [
   {
@@ -32,13 +25,17 @@ const films = [
   }
 ];
 
-it(`Render App`, () => {
+const onTitleButtonClick = () => {};
+const onMouseOver = () => {};
+
+// Вы можете запустить все тесты или только определённый
+// npm run test.jest -- -t '<Albums /> should render Cinderella'
+it(`Main should render films & Promo`, () => {
   const tree = renderer
-    .create(<App
-      filmPromoName={FilmPromo.name}
-      filmPromoGenre={FilmPromo.genre}
-      filmPromoDate={FilmPromo.releaseDate}
+    .create(<MovieList
       films={films}
+      onTitleButtonClick={onTitleButtonClick}
+      onMouseOver={onMouseOver}
     />)
     .toJSON();
 
