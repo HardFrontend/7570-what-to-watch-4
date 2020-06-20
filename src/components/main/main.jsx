@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import MovieList from "../small-movie-card-list/small-movie-card-list.jsx";
 
 const Main = (props) => {
   const {filmPromoName, filmPromoGenre, filmPromoDate, films, onTitleButtonClick} = props;
@@ -98,19 +99,10 @@ const Main = (props) => {
           </li>
         </ul>
 
-        <div className="catalog__movies-list">
-          {films.map((film, index) => (
-            <article key={index} className="small-movie-card catalog__movies-card">
-              <div className="small-movie-card__image">
-                <img src="img/fantastic-beasts-the-crimes-of-grindelwald.jpg"
-                  alt="Fantastic Beasts: The Crimes of Grindelwald" width="280" height="175"/>
-              </div>
-              <h3 className="small-movie-card__title">
-                <a className="small-movie-card__link" href="movie-page.html" onClick={onTitleButtonClick}>{film.title}</a>
-              </h3>
-            </article>
-          ))}
-        </div>
+        <MovieList
+          films={films}
+          onTitleButtonClick={onTitleButtonClick}
+        />
 
         <div className="catalog__more">
           <button className="catalog__button" type="button">Show more</button>
@@ -130,7 +122,8 @@ const Main = (props) => {
           <p>© 2019 What to watch Ltd.</p>
         </div>
       </footer>
-    </div> </React.Fragment>
+    </div>
+  </React.Fragment>
   ;
 };
 
