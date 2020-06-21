@@ -9,8 +9,6 @@ const FilmPromo = {
   releaseDate: 2010,
 };
 
-console.log(typeof films[2].title)
-
 ReactDOM.render(
     <App filmPromoName={FilmPromo.name}
       filmPromoGenre={FilmPromo.genre}
