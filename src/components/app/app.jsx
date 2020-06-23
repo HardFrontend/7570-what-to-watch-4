@@ -10,18 +10,41 @@ const onTitleButtonClick = () => {
 class App extends PureComponent {
   constructor(props) {
     super(props);
+
+    this.state = {
+      activeFilm: null
+    };
+
+    this._renderMain = this._renderMain.bind(this);
   }
 
   _renderMain() {
     const {filmPromoName, filmPromoGenre, filmPromoDate, films} = this.props;
+    const {activeFilm} = this.state;
 
-    return <Main
-      filmPromoName={filmPromoName}
-      filmPromoGenre={filmPromoGenre}
-      filmPromoDate={filmPromoDate}
-      films={films}
-      onTitleButtonClick={onTitleButtonClick}
-    />;
+    if (!activeFilm) {
+      return (
+        <Main
+          filmPromoName={filmPromoName}
+          filmPromoGenre={filmPromoGenre}
+          filmPromoDate={filmPromoDate}
+          films={films}
+          onTitleButtonClick={(filmId) => {
+            this.setState({
+              activeFilm: filmId,
+            });
+          }}
+        />);
+    }
+
+    if (activeFilm) {
+      return (
+        <MoviePage film={films.find((film) => film.id === activeFilm)}/>
+      )
+        ;
+    }
+
+    return null;
   }
 
   render() {
@@ -34,7 +57,7 @@ class App extends PureComponent {
             {this._renderMain()}
           </Route>
           <Route exact path="/dev-component">
-            <MoviePage film={films[0]} />
+            <MoviePage film={films[0]}/>
           </Route>
         </Switch>
       </BrowserRouter>

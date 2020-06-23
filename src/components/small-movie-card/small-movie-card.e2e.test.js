@@ -17,11 +17,16 @@ const film =
 
 it(`Should title button be pressed`, () => {
   const onTitleButtonClick = jest.fn();
+  const onMouseLeaveCard = jest.fn();
+  const onMouseEnterCard = jest.fn();
+
   const smallMovieCard = mount(
       <SmallMovieCard
         film={film}
         onTitleButtonClick={onTitleButtonClick}
         onMouseOver={() => {}}
+        onMouseLeaveCard={onMouseLeaveCard}
+        onMouseEnterCard={onMouseEnterCard}
       />
   );
 
@@ -41,20 +46,26 @@ it(`smallMovieCard hover`, () => {
   ;
 
   const onMouseOver = jest.fn();
+  const onMouseLeaveCard = jest.fn();
+  const onMouseEnterCard = jest.fn();
 
   const smallMovieCard = mount(
       <SmallMovieCard
         film={filmHover}
         onTitleButtonClick={() => {}}
         onMouseOver={onMouseOver}
+        onMouseLeaveCard={onMouseLeaveCard}
+        onMouseEnterCard={onMouseEnterCard}
       />
   );
 
   smallMovieCard.find(`article.small-movie-card`).simulate(`mouseover`);
 
-  expect(onMouseOver).toHaveBeenCalledTimes(1);
+  smallMovieCard.props().onMouseLeaveCard();
+  expect(onMouseLeaveCard).toHaveBeenCalledTimes(1);
 
   onMouseOver.mockImplementation(() => filmHover.id);
+  expect(onMouseOver()).toBe(1);module3-task2
+  expect(onMouseEnterCard).toHaveBeenCalledTimes(1);
 
-  expect(onMouseOver()).toBe(1);
 });
