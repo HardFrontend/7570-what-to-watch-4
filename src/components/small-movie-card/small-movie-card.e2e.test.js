@@ -65,7 +65,7 @@ it(`smallMovieCard hover`, () => {
   expect(onMouseLeaveCard).toHaveBeenCalledTimes(1);
 
   onMouseOver.mockImplementation(() => filmHover.id);
-  expect(onMouseOver()).toBe(1);module3-task2
+  expect(onMouseOver()).toBe(1);
   expect(onMouseEnterCard).toHaveBeenCalledTimes(1);
 
 });
