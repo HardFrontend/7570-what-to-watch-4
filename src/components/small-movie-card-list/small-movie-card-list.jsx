@@ -1,8 +1,6 @@
 import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
 import SmallMovieCard from "../small-movie-card/small-movie-card.jsx";
-import MoviePage from "../movie-page/movie-page.jsx";
-import {Route} from "react-router-dom";
 
 class MovieList extends PureComponent {
 
@@ -13,18 +11,17 @@ class MovieList extends PureComponent {
       activeCard: null
     };
 
-    this._handlerCardMouseOver = this._handlerCardMouseOver.bind(this);
+    this._handleHover = this._handleHover.bind(this);
     this._handlerCardMouseLeave = this._handlerCardMouseLeave.bind(this);
   }
 
-  _handlerCardMouseOver(filmId) {
-    const {activeCard} = this.state;
+  _handleHover(filmId) {
     this.setState({
       activeCard: filmId,
     });
 
     console.log(`filmId ` + filmId);
-    console.log(activeCard);
+    console.log(`activeCard ` + this.state.activeCard);
   }
 
   _handlerCardMouseLeave() {
@@ -35,31 +32,31 @@ class MovieList extends PureComponent {
 
 
   render() {
-    const {films, onTitleButtonClick} = this.props;
+    const {films, onClick} = this.props;
 
     return <React.Fragment>
       <div className="catalog__movies-list">
         {films.map((film) => (
           <SmallMovieCard key={film.id} film={film}
-                          onTitleButtonClick={onTitleButtonClick}
-                          onMouseEnterCard={this._handlerCardMouseOver}
-                          onMouseLeaveCard={this._handlerCardMouseLeave}
+            onClick={onClick}
+            onHover={this._handleHover }
+            onMouseLeaveCard={this._handlerCardMouseLeave}
           />
         ))}
       </div>
     </React.Fragment>
-      ;
+    ;
   }
 }
 
 
 MovieList.propTypes = {
   films: PropTypes.arrayOf(
-    PropTypes.shape({
-      title: PropTypes.string.isRequired,
-    })
+      PropTypes.shape({
+        title: PropTypes.string.isRequired,
+      })
   ).isRequired,
-  onTitleButtonClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
 };
 
 export default MovieList;

@@ -15,7 +15,13 @@ class App extends PureComponent {
       activeFilm: null
     };
 
-    this._renderMain = this._renderMain.bind(this);
+    this._handleClick = this._handleClick.bind(this);
+  }
+
+  _handleClick(index) {
+    this.setState({
+      activeFilm: index,
+    });
   }
 
   _renderMain() {
@@ -29,11 +35,7 @@ class App extends PureComponent {
           filmPromoGenre={filmPromoGenre}
           filmPromoDate={filmPromoDate}
           films={films}
-          onTitleButtonClick={(filmId) => {
-            this.setState({
-              activeFilm: filmId,
-            });
-          }}
+          onClick={this._handleClick}
         />);
     }
 
@@ -41,7 +43,7 @@ class App extends PureComponent {
       return (
         <MoviePage film={films.find((film) => film.id === activeFilm)}/>
       )
-        ;
+      ;
     }
 
     return null;
