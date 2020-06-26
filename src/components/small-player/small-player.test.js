@@ -1,7 +1,6 @@
 import React from "react";
 import renderer from "react-test-renderer";
-import SmallMovieCard from "./small-movie-card.jsx";
-import SmallPlayer from "../small-player/small-player";
+import SmallPlayer from "./small-player.jsx";
 
 const film =
   {
@@ -13,20 +12,20 @@ const film =
     videosrc: `https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4`
   };
 
-const onHover = () => {};
-const onClick = () => {};
 
-it(`SmallMovieCard render`, () => {
+it(`VideoPlayer render`, () => {
   const tree = renderer
-    .create(<SmallMovieCard
-      film={film}
-      onHover={onHover}
-      onClick={onClick}
+    .create(<SmallPlayer
+      poster={film.img}
+      src={film.videosrc}
+      isMuted={true}
+      isPlaying={true}
+      width="280" height="175"
     />, {
-        createNodeMock: () => {
-          return {};
-        }
+      createNodeMock: () => {
+        return {};
       }
+    }
     ).toJSON();
 
   expect(tree).toMatchSnapshot();

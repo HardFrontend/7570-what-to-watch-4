@@ -11,29 +11,32 @@ const film =
   {
     id: 1,
     title: `Fantastic Beasts`,
-    img: `img/fantastic-beasts-the-crimes-of-grindelwald.jpg`
+    img: `img/fantastic-beasts-the-crimes-of-grindelwald.jpg`,
+    genre: `comedy`,
+    year: `2011`,
+    videosrc: `https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4`
   }
 ;
 
 it(`Should title button be pressed`, () => {
-  const onTitleButtonClick = jest.fn();
+  const onClick = jest.fn();
   const onMouseLeaveCard = jest.fn();
-  const onMouseEnterCard = jest.fn();
+  const onHover = jest.fn();
 
   const smallMovieCard = mount(
       <SmallMovieCard
         film={film}
-        onTitleButtonClick={onTitleButtonClick}
-        onMouseOver={() => {}}
+        onClick={onClick}
         onMouseLeaveCard={onMouseLeaveCard}
-        onMouseEnterCard={onMouseEnterCard}
+        onHover={onHover}
+        isMuted={true}
       />
   );
 
   const titleButton = smallMovieCard.find(`.small-movie-card__link`);
   titleButton.simulate(`click`);
 
-  expect(onTitleButtonClick.mock.calls.length).toBe(1);
+  expect(onClick.mock.calls.length).toBe(1);
 });
 
 it(`smallMovieCard hover`, () => {
@@ -41,21 +44,25 @@ it(`smallMovieCard hover`, () => {
     {
       id: 1,
       title: `Fantastic Beasts`,
-      img: `img/fantastic-beasts-the-crimes-of-grindelwald.jpg`
+      img: `img/fantastic-beasts-the-crimes-of-grindelwald.jpg`,
+      genre: `comedy`,
+      year: `2011`,
+      videosrc: `https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4`
     }
   ;
 
-  const onMouseOver = jest.fn();
+  const onHover = jest.fn();
   const onMouseLeaveCard = jest.fn();
   const onMouseEnterCard = jest.fn();
 
   const smallMovieCard = mount(
       <SmallMovieCard
         film={filmHover}
-        onTitleButtonClick={() => {}}
-        onMouseOver={onMouseOver}
+        onClick={() => {}}
+        onHover={onHover}
         onMouseLeaveCard={onMouseLeaveCard}
         onMouseEnterCard={onMouseEnterCard}
+        isMuted={true}
       />
   );
 
@@ -64,8 +71,8 @@ it(`smallMovieCard hover`, () => {
   smallMovieCard.props().onMouseLeaveCard();
   expect(onMouseLeaveCard).toHaveBeenCalledTimes(1);
 
-  onMouseOver.mockImplementation(() => filmHover.id);
-  expect(onMouseOver()).toBe(1);
-  expect(onMouseEnterCard).toHaveBeenCalledTimes(1);
+  onHover.mockImplementation(() => filmHover.id);
+  expect(onHover()).toBe(1);
+  expect(onHover).toHaveBeenCalledTimes(1);
 
 });

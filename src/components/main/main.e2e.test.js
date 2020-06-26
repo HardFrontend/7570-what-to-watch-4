@@ -17,22 +17,31 @@ const films = [
   {
     id: 0,
     title: `Fantastic Beasts`,
-    img: `img/fantastic-beasts-the-crimes-of-grindelwald.jpg`
+    img: `img/fantastic-beasts-the-crimes-of-grindelwald.jpg`,
+    genre: `comedy`,
+    year: `2011`,
+    videosrc: `https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4`
   },
   {
     id: 1,
     title: `Bohemian Rhapsody`,
-    img: `img/bohemian-rhapsody.jpg`
+    img: `img/bohemian-rhapsody.jpg`,
+    genre: `comedy`,
+    year: `2011`,
+    videosrc: `https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4`
   },
   {
     id: 3,
     title: `Macbeth`,
-    img: `img/macbeth.jpg`
+    img: `img/macbeth.jpg`,
+    genre: `comedy`,
+    year: `2011`,
+    videosrc: `https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4`
   },
 ];
 
 it(`Should title button be pressed`, () => {
-  const onTitleButtonClick = jest.fn();
+  const onClick = jest.fn();
 
   const main = mount(
       <Main
@@ -41,7 +50,7 @@ it(`Should title button be pressed`, () => {
         filmPromoDate={FilmPromo.releaseDate}
         films={films}
 
-        onTitleButtonClick={onTitleButtonClick}
+        onClick={onClick}
       />
   );
 
@@ -49,5 +58,5 @@ it(`Should title button be pressed`, () => {
 
   titleButtons.forEach((button) => button.simulate(`click`));
 
-  expect(onTitleButtonClick.mock.calls.length).toBe(films.length);
+  expect(onClick.mock.calls.length).toBe(films.length);
 });

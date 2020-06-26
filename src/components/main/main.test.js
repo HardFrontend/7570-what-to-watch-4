@@ -1,6 +1,7 @@
 import React from "react";
 import renderer from "react-test-renderer";
 import Main from "./main.jsx";
+import MovieList from "../small-movie-card-list/small-movie-card-list";
 
 // Для тестов мы готовим отдельные моки.
 // Не следует импортировать моки, которые
@@ -15,27 +16,39 @@ const films = [
   {
     id: 0,
     title: `Fantastic Beasts`,
-    img: `img/fantastic-beasts-the-crimes-of-grindelwald.jpg`
+    img: `img/fantastic-beasts-the-crimes-of-grindelwald.jpg`,
+    genre: `comedy`,
+    year: `2011`,
+    videosrc: `https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4`
   },
   {
     id: 1,
     title: `Bohemian Rhapsody`,
-    img: `img/bohemian-rhapsody.jpg`
+    img: `img/bohemian-rhapsody.jpg`,
+    genre: `comedy`,
+    year: `2011`,
+    videosrc: `https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4`
   },
   {
     id: 2,
     title: `Macbeth`,
-    img: `img/macbeth.jpg`
+    img: `img/macbeth.jpg`,
+    genre: `comedy`,
+    year: `2011`,
+    videosrc: `https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4`
   },
   {
     id: 3,
     title: `Aviator`,
-    img: `img/aviator.jpg`
+    img: `img/aviator.jpg`,
+    genre: `comedy`,
+    year: `2011`,
+    videosrc: `https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4`
   }
 ];
 
 
-const onTitleButtonClick = () => {};
+const onClick = () => {};
 
 it(`Main should render films & Promo`, () => {
   const tree = renderer
@@ -44,9 +57,13 @@ it(`Main should render films & Promo`, () => {
       filmPromoGenre={FilmPromo.genre}
       filmPromoDate={FilmPromo.releaseDate}
       films={films}
-      onTitleButtonClick={onTitleButtonClick}
-    />)
-    .toJSON();
+      onClick={onClick}
+    />, {
+      createNodeMock: () => {
+        return {};
+      }
+    }
+    ).toJSON();
 
   expect(tree).toMatchSnapshot();
 });
