@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GenresList render 1`] = `
+Array [
+  <ul
+    className="catalog__genres-list"
+  >
+    <li
+      className="catalog__genres-item
+           "
+    >
+      <a
+        className="catalog__genres-link"
+        href="#"
+        id="All genres"
+        onClick={[Function]}
+      >
+        All genres
+      </a>
+    </li>
+    <li
+      className="catalog__genres-item
+           "
+    >
+      <a
+        className="catalog__genres-link"
+        href="#"
+        id="drama"
+        onClick={[Function]}
+      >
+        drama
+      </a>
+    </li>
+    <li
+      className="catalog__genres-item
+           "
+    >
+      <a
+        className="catalog__genres-link"
+        href="#"
+        id="comedy"
+        onClick={[Function]}
+      >
+        comedy
+      </a>
+    </li>
+  </ul>,
+  ", ",
+]
+`;

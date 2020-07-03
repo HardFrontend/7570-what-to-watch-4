@@ -1,11 +1,12 @@
 import React from "react";
 import renderer from "react-test-renderer";
 import Main from "./main.jsx";
+import configureStore from "redux-mock-store";
+import {Provider} from "react-redux";
 import MovieList from "../small-movie-card-list/small-movie-card-list";
 
-// Для тестов мы готовим отдельные моки.
-// Не следует импортировать моки, которые
-// применяются для приложения.
+const mockStore = configureStore([]);
+
 const FilmPromo = {
   name: `The Grand Budapest Hotel`,
   genre: `Horor`,
@@ -47,23 +48,34 @@ const films = [
   }
 ];
 
+const allGenres = [`All genres`, `drama`, `comedy`];
 
 const onClick = () => {};
+const onFilterClick = () => {};
 
 it(`Main should render films & Promo`, () => {
+  const store = mockStore({
+    sortGenre: `All genres`,
+    allFilms: films,
+    filmsShow: films
+  });
+
   const tree = renderer
-    .create(<Main
-      filmPromoName={FilmPromo.name}
-      filmPromoGenre={FilmPromo.genre}
-      filmPromoDate={FilmPromo.releaseDate}
-      films={films}
-      onClick={onClick}
-    />, {
-      createNodeMock: () => {
-        return {};
-      }
-    }
-    ).toJSON();
+    .create(
+        <Provider store={store}>
+          <Main
+            filmPromoName={FilmPromo.name}
+            filmPromoGenre={FilmPromo.genre}
+            filmPromoDate={FilmPromo.releaseDate}
+            films={films}
+            onClick={onClick}
+            onFilterClick={onFilterClick}
+            allGenres={allGenres}
+          />, </Provider>, {
+          createNodeMock: () => {
+            return {};
+          }
+        }).toJSON();
 
   expect(tree).toMatchSnapshot();
 });

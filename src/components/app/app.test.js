@@ -1,8 +1,10 @@
 import React from "react";
 import renderer from "react-test-renderer";
+import configureStore from "redux-mock-store";
+import {Provider} from "react-redux";
 import App from "./app.jsx";
-import Main from "../main/main";
-import MovieList from "../small-movie-card-list/small-movie-card-list";
+
+const mockStore = configureStore([]);
 
 const FilmPromo = {
   name: `The Grand Budapest Hotel`,
@@ -44,20 +46,29 @@ const films = [
     videosrc: `https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4`
   }
 ];
+const allGenres = [`All genres`, `drama`, `comedy`];
 
 it(`Render App`, () => {
+  const store = mockStore({
+    sortGenre: `All genres`,
+    allFilms: films,
+    filmsShow: films
+  });
+
   const tree = renderer
-    .create(<App
-      filmPromoName={FilmPromo.name}
-      filmPromoGenre={FilmPromo.genre}
-      filmPromoDate={FilmPromo.releaseDate}
-      films={films}
-    />, {
-      createNodeMock: () => {
-        return {};
-      }
-    }
-    ).toJSON();
+    .create(
+        <Provider store={store}>
+          <App
+            filmPromoName={FilmPromo.name}
+            filmPromoGenre={FilmPromo.genre}
+            filmPromoDate={FilmPromo.releaseDate}
+            films={films}
+            allGenres={allGenres}
+          />, </Provider>, {
+          createNodeMock: () => {
+            return {};
+          }
+        }).toJSON();
 
   expect(tree).toMatchSnapshot();
 });

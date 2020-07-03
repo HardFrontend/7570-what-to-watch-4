@@ -1,11 +1,11 @@
 import React, {PureComponent} from "react";
 import {BrowserRouter, Route, Switch} from "react-router-dom";
+import {connect} from "react-redux";
+import {ActionCreator} from "../../reducer.js";
 import PropTypes from "prop-types";
 import Main from "../main/main.jsx";
 import MoviePage from "../movie-page/movie-page.jsx";
 
-const onTitleButtonClick = () => {
-};
 
 class App extends PureComponent {
   constructor(props) {
@@ -24,9 +24,18 @@ class App extends PureComponent {
     });
   }
 
+  _allGenres(allFilms) {
+    let array1 = [`All genres`];
+    allFilms.forEach((film) => array1.push(film.genre));
+    console.log(new Set(array1));
+    array1 = Array.from(new Set(array1)).slice(0, 9);
+    return array1;
+  }
+
   _renderMain() {
-    const {filmPromoName, filmPromoGenre, filmPromoDate, films} = this.props;
+    const {filmPromoName, filmPromoGenre, filmPromoDate, films, onFilterClick} = this.props;
     const {activeFilm} = this.state;
+    const allGenres = this._allGenres(films);
 
     if (!activeFilm) {
       return (
@@ -36,6 +45,8 @@ class App extends PureComponent {
           filmPromoDate={filmPromoDate}
           films={films}
           onClick={this._handleClick}
+          onFilterClick = {onFilterClick}
+          allGenres={allGenres}
         />);
     }
 
@@ -72,6 +83,20 @@ App.propTypes = {
   filmPromoGenre: PropTypes.string.isRequired,
   filmPromoDate: PropTypes.number.isRequired,
   films: PropTypes.array.isRequired,
+  onFilterClick: PropTypes.func.isRequired,
 };
 
-export default App;
+const mapStateToProps = (state) => ({
+  sortGenre: state.sortGenre,
+  filmsShow: state.filmsShow,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onFilterClick(id) {
+    console.log(`mapDispatchToProps ` + id);
+    dispatch(ActionCreator.filterChange(id));
+  }
+});
+
+export {App};
+export default connect(mapStateToProps, mapDispatchToProps)(App);

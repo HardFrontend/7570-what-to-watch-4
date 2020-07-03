@@ -19,9 +19,6 @@ class MovieList extends PureComponent {
     this.setState({
       activeCard: filmId,
     });
-
-    console.log(`filmId ` + filmId);
-    console.log(`activeCard ` + this.state.activeCard);
   }
 
   _handlerCardMouseLeave() {
