@@ -3,6 +3,7 @@ import films from "./mocks/films.js";
 
 const initialState = {
   sortGenre: `All genres`,
+  allFilms: films,
   filmsShow: films
 };
 
@@ -13,6 +14,7 @@ const ActionType = {
 
 const getSortedFilms = (items, genre) => {
   let sortedFilms = [];
+
   items.forEach((film) => {
     if (film.genre === genre) {
       sortedFilms.push(film);
@@ -35,7 +37,14 @@ const ActionCreator = {
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case ActionType.FILTER_CHANGE:
-      console.log(`state ` + state.sortGenre)
+      console.log(`state ` + state.sortGenre);
+
+      if(action.payload === `All genres`) {
+        return extend(state, {
+          sortGenre: `All genres`,
+          filmsShow: state.allFilms
+        });
+      }
       return extend(state, {
         sortGenre: action.payload,
         filmsShow: getSortedFilms(films, action.payload)
@@ -47,7 +56,7 @@ const reducer = (state = initialState, action) => {
       });
   }
 
-  console.log(state)
+  console.log(state);
   return state;
 };
 

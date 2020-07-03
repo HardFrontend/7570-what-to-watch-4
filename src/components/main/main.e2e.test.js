@@ -1,7 +1,12 @@
 import React from "react";
 import Enzyme, {shallow, mount} from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
+import configureStore from "redux-mock-store";
+import {Provider} from "react-redux";
 import Main from "./main.jsx";
+import App from "../app/app";
+
+const mockStore = configureStore([]);
 
 Enzyme.configure({
   adapter: new Adapter(),
@@ -40,18 +45,29 @@ const films = [
   },
 ];
 
+const allGenres = [`All genres`, `drama`, `comedy`];
+
 it(`Should title button be pressed`, () => {
   const onClick = jest.fn();
+  const onFilterClick = jest.fn();
+
+  const store = mockStore({
+    sortGenre: `All genres`,
+    allFilms: films,
+    filmsShow: films
+  });
 
   const main = mount(
-      <Main
-        filmPromoName={FilmPromo.name}
-        filmPromoGenre={FilmPromo.genre}
-        filmPromoDate={FilmPromo.releaseDate}
-        films={films}
-
-        onClick={onClick}
-      />
+      <Provider store={store}>
+        <Main
+          filmPromoName={FilmPromo.name}
+          filmPromoGenre={FilmPromo.genre}
+          filmPromoDate={FilmPromo.releaseDate}
+          films={films}
+          allGenres={allGenres}
+          onFilterClick={onFilterClick}
+          onClick={onClick}
+        /></Provider>
   );
 
   const titleButtons = main.find(`.small-movie-card__link`);

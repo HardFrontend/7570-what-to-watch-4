@@ -1,17 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
+import {connect} from "react-redux";
 import MovieList from "../small-movie-card-list/small-movie-card-list.jsx";
 import GenresList from "../genres-list/genres-list.jsx";
 
 const Main = (props) => {
-  const {filmPromoName, filmPromoGenre, filmPromoDate, films, onClick,onFilterClick } = props;
+  const {filmPromoName, filmPromoGenre, filmPromoDate, films, onClick, onFilterClick, allGenres} = props;
 
-  let allGenres = (allFilms) =>{
-    const array1 = [];
-    allFilms.forEach((film) => array1.push(film.genre));
-    console.log(new Set(array1));
-    return new Set(array1)
-  };
 
   return <React.Fragment>
 
@@ -75,7 +70,7 @@ const Main = (props) => {
       <section className="catalog">
         <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-        <GenresList genres={Array.from(allGenres(films))} onFilterClick={onFilterClick}/>
+        <GenresList genres={allGenres} onFilterClick={onFilterClick} sortGenre={`all-genres`}/>
 
         <MovieList
           films={films}
@@ -115,6 +110,15 @@ Main.propTypes = {
       })
   ).isRequired,
   onClick: PropTypes.func.isRequired,
+  onFilterClick: PropTypes.func.isRequired,
+  allGenres: PropTypes.array.isRequired,
 };
 
-export default Main;
+const mapStateToProps = (state) => ({
+  films: state.filmsShow,
+  allFilms: state.allFilms,
+  sortGenre: state.sortGenre,
+});
+
+export {Main};
+export default connect(mapStateToProps)(Main);

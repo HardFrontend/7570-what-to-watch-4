@@ -5,10 +5,7 @@ import {ActionCreator} from "../../reducer.js";
 import PropTypes from "prop-types";
 import Main from "../main/main.jsx";
 import MoviePage from "../movie-page/movie-page.jsx";
-import films from "../../mocks/films.js";
 
-const onTitleButtonClick = () => {
-};
 
 class App extends PureComponent {
   constructor(props) {
@@ -27,13 +24,18 @@ class App extends PureComponent {
     });
   }
 
-  _onFilterClick(id) {
-    console.log(id);
+  _allGenres(allFilms) {
+    let array1 = [`All genres`];
+    allFilms.forEach((film) => array1.push(film.genre));
+    console.log(new Set(array1));
+    array1 = Array.from(new Set(array1)).slice(0, 9);
+    return array1;
   }
 
   _renderMain() {
-    const {filmPromoName, filmPromoGenre, filmPromoDate, films} = this.props;
+    const {filmPromoName, filmPromoGenre, filmPromoDate, films, onFilterClick} = this.props;
     const {activeFilm} = this.state;
+    const allGenres = this._allGenres(films);
 
     if (!activeFilm) {
       return (
@@ -43,7 +45,8 @@ class App extends PureComponent {
           filmPromoDate={filmPromoDate}
           films={films}
           onClick={this._handleClick}
-          onFilterClick = {this._onFilterClick}
+          onFilterClick = {onFilterClick}
+          allGenres={allGenres}
         />);
     }
 
@@ -80,6 +83,7 @@ App.propTypes = {
   filmPromoGenre: PropTypes.string.isRequired,
   filmPromoDate: PropTypes.number.isRequired,
   films: PropTypes.array.isRequired,
+  onFilterClick: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
