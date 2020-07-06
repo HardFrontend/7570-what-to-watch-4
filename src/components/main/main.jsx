@@ -3,9 +3,10 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import MovieList from "../small-movie-card-list/small-movie-card-list.jsx";
 import GenresList from "../genres-list/genres-list.jsx";
+import ShowMore from "../show-more/show-more.jsx";
 
 const Main = (props) => {
-  const {filmPromoName, filmPromoGenre, filmPromoDate, films, onClick, onFilterClick, allGenres} = props;
+  const {filmPromoName, filmPromoGenre, filmPromoDate, films,filmsShow, onClick, onFilterClick,onShowMoreClick, allGenres} = props;
 
 
   return <React.Fragment>
@@ -77,9 +78,12 @@ const Main = (props) => {
           onClick={onClick}
         />
 
-        <div className="catalog__more">
-          <button className="catalog__button" type="button">Show more</button>
-        </div>
+        {filmsShow.length > 9 &&
+          <ShowMore
+            onShowMoreClick={onShowMoreClick}
+          />
+        }
+
       </section>
 
       <footer className="page-footer">
@@ -115,7 +119,7 @@ Main.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  films: state.filmsShow,
+  filmsShow: state.filmsShow,
   allFilms: state.allFilms,
   sortGenre: state.sortGenre,
 });

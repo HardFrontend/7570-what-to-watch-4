@@ -33,9 +33,15 @@ class App extends PureComponent {
   }
 
   _renderMain() {
-    const {filmPromoName, filmPromoGenre, filmPromoDate, films, onFilterClick} = this.props;
+    const {filmPromoName, filmPromoGenre, filmPromoDate, films, allFilms, filmsShow, onFilterClick, onShowMoreClick, filmsShowTo = 8} = this.props;
     const {activeFilm} = this.state;
-    const allGenres = this._allGenres(films);
+    const allGenres = this._allGenres(allFilms);
+
+    let filmsSlised = () => {
+      return filmsShow.slice(0, filmsShowTo);
+    };
+    console.log(filmsSlised());
+    filmsSlised();
 
     if (!activeFilm) {
       return (
@@ -43,10 +49,12 @@ class App extends PureComponent {
           filmPromoName={filmPromoName}
           filmPromoGenre={filmPromoGenre}
           filmPromoDate={filmPromoDate}
-          films={films}
+          films={filmsSlised()}
+          filmsShow={filmsShow}
           onClick={this._handleClick}
           onFilterClick = {onFilterClick}
           allGenres={allGenres}
+          onShowMoreClick={onShowMoreClick}
         />);
     }
 
@@ -61,7 +69,7 @@ class App extends PureComponent {
   }
 
   render() {
-    const {films} = this.props;
+    const {filmsShow} = this.props;
 
     return (
       <BrowserRouter>
@@ -70,7 +78,7 @@ class App extends PureComponent {
             {this._renderMain()}
           </Route>
           <Route exact path="/dev-component">
-            <MoviePage film={films[0]}/>
+            <MoviePage film={filmsShow[0]}/>
           </Route>
         </Switch>
       </BrowserRouter>
@@ -83,18 +91,28 @@ App.propTypes = {
   filmPromoGenre: PropTypes.string.isRequired,
   filmPromoDate: PropTypes.number.isRequired,
   films: PropTypes.array.isRequired,
+  allFilms: PropTypes.array.isRequired,
   onFilterClick: PropTypes.func.isRequired,
+  onShowMoreClick: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   sortGenre: state.sortGenre,
   filmsShow: state.filmsShow,
+  films: state.films,
+  allFilms: state.allFilms,
+  filmsShowTo: state.filmsShowTo
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onFilterClick(id) {
-    console.log(`mapDispatchToProps ` + id);
+    console.log(`ActionCreator.onFilterClick`);
     dispatch(ActionCreator.filterChange(id));
+  },
+
+  onShowMoreClick() {
+    console.log(`ActionCreator.sliceFilms`);
+    dispatch(ActionCreator.sliceFilms());
   }
 });
 

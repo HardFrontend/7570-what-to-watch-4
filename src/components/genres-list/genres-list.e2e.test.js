@@ -24,7 +24,6 @@ it(`Should filer link be pressed`, () => {
   );
 
   const titleButtons = genresList.find(`.catalog__genres-link`);
-  console.log(titleButtons);
   titleButtons.forEach((button) => button.simulate(`click`));
 
   expect(onClick.mock.calls.length).toBe(allGenres.length);

@@ -4,12 +4,24 @@ import films from "./mocks/films.js";
 const initialState = {
   sortGenre: `All genres`,
   allFilms: films,
-  filmsShow: films
+  filmsShow: films,
+  filmsShowTo: 8
 };
+
+
+let sliceFilms = (state = initialState) => {
+  console.log(state.filmsShow);
+  return extend(state, {
+    filmsShow: state.filmsShow.slice(0, 8)
+  });
+};
+
+sliceFilms();
 
 const ActionType = {
   FILTER_CHANGE: `FILTER_CHANGE`,
   FILMS_FILTER: `FILMS_FILTER`,
+  SLICE_FILMS: `SLICE_FILMS`,
 };
 
 const getSortedFilms = (items, genre) => {
@@ -32,27 +44,33 @@ const ActionCreator = {
     type: ActionType.FILTER_CHANGE,
     payload: id
   }),
+
+  sliceFilms: () => ({
+    type: ActionType.SLICE_FILMS,
+  })
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case ActionType.FILTER_CHANGE:
       console.log(`state ` + state.sortGenre);
-
-      if(action.payload === `All genres`) {
+      if (action.payload === `All genres`) {
         return extend(state, {
           sortGenre: `All genres`,
-          filmsShow: state.allFilms
+          filmsShow: state.allFilms,
+          filmsShowTo: 8
         });
       }
       return extend(state, {
         sortGenre: action.payload,
-        filmsShow: getSortedFilms(films, action.payload)
+        filmsShow: getSortedFilms(films, action.payload),
+        filmsShowTo: 8
       });
 
-    case ActionType.FILMS_FILTER:
+    case ActionType.SLICE_FILMS:
+      console.log(`ActionType.SLICE_FILMS`)
       return extend(state, {
-        mistakes: state.mistakes + action.payload,
+        filmsShowTo: state.filmsShowTo + 8,
       });
   }
 
