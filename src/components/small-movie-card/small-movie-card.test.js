@@ -13,15 +13,19 @@ const film =
     videosrc: `https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4`
   };
 
-const onHover = () => {};
+const onMouseEnter = () => {};
+const onMouseLeave = () => {};
 const onClick = () => {};
+const isPlaying = false;
 
 it(`SmallMovieCard render`, () => {
   const tree = renderer
     .create(<SmallMovieCard
       film={film}
-      onHover={onHover}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
       onClick={onClick}
+      isPlaying={isPlaying}
     />, {
         createNodeMock: () => {
           return {};

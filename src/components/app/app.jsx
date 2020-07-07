@@ -33,7 +33,7 @@ class App extends PureComponent {
   }
 
   _renderMain() {
-    const {filmPromoName, filmPromoGenre, filmPromoDate, films, allFilms, filmsShow, onFilterClick, onShowMoreClick, filmsShowTo = 8} = this.props;
+    const {filmPromoName, filmPromoGenre, filmPromoDate, allFilms, filmsShow, onFilterClick, onShowMoreClick, filmsShowTo = 8} = this.props;
     const {activeFilm} = this.state;
     const allGenres = this._allGenres(allFilms);
 
@@ -60,7 +60,7 @@ class App extends PureComponent {
 
     if (activeFilm) {
       return (
-        <MoviePage film={films.find((film) => film.id === activeFilm)}/>
+        <MoviePage film={filmsShow.find((film) => film.id === activeFilm)}/>
       )
       ;
     }
@@ -90,8 +90,9 @@ App.propTypes = {
   filmPromoName: PropTypes.string.isRequired,
   filmPromoGenre: PropTypes.string.isRequired,
   filmPromoDate: PropTypes.number.isRequired,
-  films: PropTypes.array.isRequired,
+  filmsShow: PropTypes.array.isRequired,
   allFilms: PropTypes.array.isRequired,
+  filmsShowTo: PropTypes.number.isRequired,
   onFilterClick: PropTypes.func.isRequired,
   onShowMoreClick: PropTypes.func.isRequired,
 };

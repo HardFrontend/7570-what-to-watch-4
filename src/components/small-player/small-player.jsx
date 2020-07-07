@@ -1,59 +1,14 @@
-import React, {PureComponent, Fragment, createRef} from "react";
+import React, {Fragment} from "react";
 import PropTypes from "prop-types";
 
-export default class SmallPlayer extends PureComponent {
-  constructor(props) {
-    super(props);
-
-    this.state = {isPlaying: props.isPlaying};
-    this._videoRef = createRef();
-  }
-
-  componentDidMount() {
-    const {isMuted, poster, src, width, height} = this.props;
-    const video = this._videoRef.current;
-
-    if (isMuted) {
-      video.muted = true;
-    }
-
-    video.poster = poster;
-    video.src = src;
-    video.width = width;
-    video.height = height;
-  }
-
-  componentDidUpdate() {
-    const {isPlaying} = this.props;
-    const video = this._videoRef.current;
-
-    if (isPlaying) {
-      video.play();
-    } else {
-      video.pause();
-    }
-  }
-
-  render() {
-    return (
-      <video
-        ref={this._videoRef}>
-      </video>
-    );
-  }
-
-
-  componentWillUnmount() {
-    const video = this._videoRef.current;
-
-    video.oncanplaythrough = null;
-    video.onplay = null;
-    video.onpause = null;
-    video.ontimeupdate = null;
-    video.src = ``;
-  }
-
-}
+const SmallPlayer = ({children}) => {
+  return (
+    <Fragment>
+      {children}
+    </Fragment>
+  );
+};
+export default SmallPlayer;
 
 SmallPlayer.propTypes = {
   isMuted: PropTypes.bool.isRequired,

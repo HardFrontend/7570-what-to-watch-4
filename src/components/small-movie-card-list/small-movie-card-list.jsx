@@ -1,50 +1,25 @@
-import React, {PureComponent} from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import SmallMovieCard from "../small-movie-card/small-movie-card.jsx";
+import withActivePlayItem from "../../hocs/with-active-play-item/with-active-play-item.js";
 
-class MovieList extends PureComponent {
+const WithActivePlayItemWrapper = withActivePlayItem(SmallMovieCard);
 
-  constructor(props) {
-    super(props);
+const MovieList = (props) => {
+  const {films, onClick} = props;
 
-    this.state = {
-      activeCard: null
-    };
+  return <React.Fragment>
+    <div className="catalog__movies-list">
+      {films.map((film) => (
+        <WithActivePlayItemWrapper key={film.id} film={film}
+          onClick={onClick}
+        />
+      ))}
+    </div>
+  </React.Fragment>
+  ;
 
-    this._handleHover = this._handleHover.bind(this);
-    this._handlerCardMouseLeave = this._handlerCardMouseLeave.bind(this);
-  }
-
-  _handleHover(filmId) {
-    this.setState({
-      activeCard: filmId,
-    });
-  }
-
-  _handlerCardMouseLeave() {
-    this.setState({
-      activeCard: null,
-    });
-  }
-
-
-  render() {
-    const {films, onClick} = this.props;
-
-    return <React.Fragment>
-      <div className="catalog__movies-list">
-        {films.map((film) => (
-          <SmallMovieCard key={film.id} film={film}
-            onClick={onClick}
-            onHover={this._handleHover }
-            onMouseLeaveCard={this._handlerCardMouseLeave}
-          />
-        ))}
-      </div>
-    </React.Fragment>
-    ;
-  }
-}
+};
 
 
 MovieList.propTypes = {
