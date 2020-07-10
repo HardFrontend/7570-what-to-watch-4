@@ -3,9 +3,9 @@ import films from "./mocks/films.js";
 
 const initialState = {
   sortGenre: `All genres`,
-  films: films,
-  //filmsShow: films,
-  filmsShowTo: 8
+  films,
+  filmsShowTo: 8,
+  playableMovie: null
 };
 
 
@@ -21,6 +21,7 @@ const ActionType = {
   FILTER_CHANGE: `FILTER_CHANGE`,
   FILMS_FILTER: `FILMS_FILTER`,
   SLICE_FILMS: `SLICE_FILMS`,
+  MOVIE_TO_WATCH: `MOVIE_TO_WATCH`,
 };
 
 const getSortedFilms = (items, genre) => {
@@ -46,6 +47,11 @@ const ActionCreator = {
 
   sliceFilms: () => ({
     type: ActionType.SLICE_FILMS,
+  }),
+
+  movieToWatch: (film) => ({
+    type: ActionType.MOVIE_TO_WATCH,
+    payload: film
   })
 };
 
@@ -67,9 +73,14 @@ const reducer = (state = initialState, action) => {
       });
 
     case ActionType.SLICE_FILMS:
-      console.log(`ActionType.SLICE_FILMS`)
+      console.log(`ActionType.SLICE_FILMS`);
       return extend(state, {
         filmsShowTo: state.filmsShowTo + 8,
+      });
+    case ActionType.MOVIE_TO_WATCH:
+      console.log(`ActionType.MOVIE_TO_WATCH`);
+      return extend(state, {
+        playableMovie: action.payload
       });
   }
 
