@@ -1,22 +1,36 @@
 import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
+import {ActionCreator} from "../../reducer";
 
 class GenresList extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = {
-      isPlaying: false,
-    };
+
+    this.films = this.props.films;
+    console.log(this.props);
+    this.getGenresList = this.getGenresList.bind(this);
   }
 
+  getGenresList() {
+    let array1 = [`All genres`];
+    console.log(this.films)
+
+    this.films.forEach((film) => array1.push(film.genre));
+
+    console.log(new Set(array1));
+    array1 = Array.from(new Set(array1)).slice(0, 9);
+
+    return array1;
+  }
 
   render() {
-    const {genres,sortGenre, onFilterClick} = this.props;
+    const {sortGenre, onFilterClick} = this.props;
+    const genresList = this.getGenresList();
 
     return <React.Fragment>
       <ul className="catalog__genres-list">
-        {genres.map((genre) => (
+        {genresList.map((genre) => (
           <li key={genre} className={`catalog__genres-item
            ${sortGenre === genre ? `catalog__genres-item--active` : ``
           }`}>
@@ -35,10 +49,20 @@ class GenresList extends PureComponent {
 }
 
 GenresList.propTypes = {
-  genres: PropTypes.array.isRequired,
   onFilterClick: PropTypes.func.isRequired,
   sortGenre: PropTypes.string.isRequired,
 };
 
+const mapStateToProps = (state) => ({
+  sortGenre: state.sortGenre,
+  films: state.films,
+});
 
-export default GenresList;
+const mapDispatchToProps = (dispatch) => ({
+  onFilterClick(id) {
+    dispatch(ActionCreator.filterChange(id));
+  },
+});
+
+export {GenresList};
+export default connect(mapStateToProps, mapDispatchToProps)(GenresList);

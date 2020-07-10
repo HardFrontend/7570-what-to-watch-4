@@ -56,7 +56,8 @@ const onFilterClick = () => {};
 it(`Main should render films & Promo`, () => {
   const store = mockStore({
     sortGenre: `All genres`,
-    allFilms: films,
+    films,
+    filmsShowTo: 8,
     filmsShow: films
   });
 
@@ -68,6 +69,7 @@ it(`Main should render films & Promo`, () => {
             filmPromoGenre={FilmPromo.genre}
             filmPromoDate={FilmPromo.releaseDate}
             films={films}
+            filmsShow={films}
             onClick={onClick}
             onFilterClick={onFilterClick}
             allGenres={allGenres}

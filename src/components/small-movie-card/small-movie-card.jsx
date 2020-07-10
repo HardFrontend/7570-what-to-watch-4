@@ -1,57 +1,41 @@
-import React, {PureComponent} from "react";
+import React from "react";
 import PropTypes from "prop-types";
-import VideoPlayer from "../small-player/small-player.jsx";
+import SmallPlayer from "../small-player/small-player.jsx";
+import withVideo from "../../hocs/with-video/with-video";
 
-export default class SmallMovieCard extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isPlaying: false,
-    };
-  }
+const VideoPlayerWrapped = withVideo(SmallPlayer);
 
-  render() {
-    const {film, onClick, onHover} = this.props;
+const SmallMovieCard = (props) => {
 
-    return <React.Fragment>
-      <article className="small-movie-card catalog__movies-card"
-        onMouseEnter={() => {
-          this.timerId = setTimeout(() =>
-            this.setState({
-              isPlaying: true,
-            }), 2000);
+  const {film, onClick, isPlaying, onMouseEnter, onMouseLeave} = props;
 
-          onHover(film.id);
-        }}
+  return <React.Fragment>
+    <article className="small-movie-card catalog__movies-card"
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+    >
+      <div className="small-movie-card__image">
+        <VideoPlayerWrapped
+          poster={film.img}
+          src={film.videosrc}
+          isMuted={true}
+          isPlaying={isPlaying}
+          width="280" height="175"
+        />
+      </div>
+      <h3 className="small-movie-card__title">
+        <a className="small-movie-card__link" href="movie-page.html"
+          onClick={(evt) => {
+            evt.preventDefault();
+            onClick(film.id);
+          }}>{film.title}</a>
+      </h3>
+    </article>
+  </React.Fragment>
+  ;
+};
 
-        onMouseLeave={() => {
-          clearTimeout(this.timerId);
-          this.setState({
-            isPlaying: false,
-          });
-        }}
-      >
-        <div className="small-movie-card__image">
-          <VideoPlayer
-            poster={film.img}
-            src={film.videosrc}
-            isMuted={true}
-            isPlaying={this.state.isPlaying}
-            width="280" height="175"
-          />
-        </div>
-        <h3 className="small-movie-card__title">
-          <a className="small-movie-card__link" href="movie-page.html"
-            onClick={(evt) => {
-              evt.preventDefault();
-              onClick(film.id);
-            }}>{film.title}</a>
-        </h3>
-      </article>
-    </React.Fragment>
-    ;
-  }
-}
+export default SmallMovieCard;
 
 SmallMovieCard.propTypes = {
   film: PropTypes.shape({
@@ -61,5 +45,7 @@ SmallMovieCard.propTypes = {
     videosrc: PropTypes.string.isRequired,
   }).isRequired,
   onClick: PropTypes.func.isRequired,
-  onHover: PropTypes.func.isRequired,
+  onMouseEnter: PropTypes.func.isRequired,
+  onMouseLeave: PropTypes.func.isRequired,
+  isPlaying: PropTypes.bool.isRequired,
 };

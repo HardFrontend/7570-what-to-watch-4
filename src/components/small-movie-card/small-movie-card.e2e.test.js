@@ -17,19 +17,23 @@ const film =
     videosrc: `https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4`
   }
 ;
+const isPlaying = false;
 
 it(`Should title button be pressed`, () => {
   const onClick = jest.fn();
-  const onMouseLeaveCard = jest.fn();
+  const onMouseLeave = jest.fn();
+  const onMouseEnter = jest.fn();
   const onHover = jest.fn();
 
   const smallMovieCard = mount(
       <SmallMovieCard
         film={film}
         onClick={onClick}
-        onMouseLeaveCard={onMouseLeaveCard}
+        onMouseLeave={onMouseLeave}
+        onMouseEnter={onMouseEnter}
         onHover={onHover}
         isMuted={true}
+        isPlaying={isPlaying}
       />
   );
 
@@ -52,24 +56,25 @@ it(`smallMovieCard hover`, () => {
   ;
 
   const onHover = jest.fn();
-  const onMouseLeaveCard = jest.fn();
-  const onMouseEnterCard = jest.fn();
+  const onMouseLeave = jest.fn();
+  const onMouseEnter = jest.fn();
 
   const smallMovieCard = mount(
       <SmallMovieCard
         film={filmHover}
         onClick={() => {}}
         onHover={onHover}
-        onMouseLeaveCard={onMouseLeaveCard}
-        onMouseEnterCard={onMouseEnterCard}
+        onMouseLeave={onMouseLeave}
+        onMouseEnter={onMouseEnter}
         isMuted={true}
+        isPlaying={isPlaying}
       />
   );
 
   smallMovieCard.find(`article.small-movie-card`).simulate(`mouseover`);
 
-  smallMovieCard.props().onMouseLeaveCard();
-  expect(onMouseLeaveCard).toHaveBeenCalledTimes(1);
+  smallMovieCard.props().onMouseLeave();
+  expect(onMouseLeave).toHaveBeenCalledTimes(1);
 
   onHover.mockImplementation(() => filmHover.id);
   expect(onHover()).toBe(1);

@@ -47,11 +47,13 @@ const films = [
   }
 ];
 const allGenres = [`All genres`, `drama`, `comedy`];
+const onFilterClick = () => {};
 
 it(`Render App`, () => {
   const store = mockStore({
     sortGenre: `All genres`,
-    allFilms: films,
+    films,
+    filmsShowTo: 8,
     filmsShow: films
   });
 
@@ -64,6 +66,7 @@ it(`Render App`, () => {
             filmPromoDate={FilmPromo.releaseDate}
             films={films}
             allGenres={allGenres}
+            onFilterClick={onFilterClick}
           />, </Provider>, {
           createNodeMock: () => {
             return {};
