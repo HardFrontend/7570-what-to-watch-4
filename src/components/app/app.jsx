@@ -24,24 +24,25 @@ class App extends PureComponent {
     });
   }
 
-  _allGenres(allFilms) {
+  _allGenres(films) {
     let array1 = [`All genres`];
-    allFilms.forEach((film) => array1.push(film.genre));
+    films.forEach((film) => array1.push(film.genre));
     console.log(new Set(array1));
     array1 = Array.from(new Set(array1)).slice(0, 9);
     return array1;
   }
 
   _renderMain() {
-    const {filmPromoName, filmPromoGenre, filmPromoDate, allFilms, filmsShow, onFilterClick, onShowMoreClick, filmsShowTo = 8} = this.props;
+    const {filmPromoName, filmPromoGenre, filmPromoDate, films, onFilterClick, onShowMoreClick, filmsShowTo = 8} = this.props;
     const {activeFilm} = this.state;
-    const allGenres = this._allGenres(allFilms);
+    const allGenres = this._allGenres(films);
 
     let filmsSlised = () => {
-      return filmsShow.slice(0, filmsShowTo);
+      return films.slice(0, filmsShowTo);
     };
     console.log(filmsSlised());
     filmsSlised();
+
 
     if (!activeFilm) {
       return (
@@ -49,10 +50,10 @@ class App extends PureComponent {
           filmPromoName={filmPromoName}
           filmPromoGenre={filmPromoGenre}
           filmPromoDate={filmPromoDate}
-          films={filmsSlised()}
-          filmsShow={filmsShow}
+          films={films}
+          filmsShow={filmsSlised()}
           onClick={this._handleClick}
-          onFilterClick = {onFilterClick}
+          onFilterClick={onFilterClick}
           allGenres={allGenres}
           onShowMoreClick={onShowMoreClick}
         />);
@@ -60,7 +61,7 @@ class App extends PureComponent {
 
     if (activeFilm) {
       return (
-        <MoviePage film={filmsShow.find((film) => film.id === activeFilm)}/>
+        <MoviePage film={films.find((film) => film.id === activeFilm)}/>
       )
       ;
     }
@@ -69,7 +70,7 @@ class App extends PureComponent {
   }
 
   render() {
-    const {filmsShow} = this.props;
+    const {films} = this.props;
 
     return (
       <BrowserRouter>
@@ -78,7 +79,7 @@ class App extends PureComponent {
             {this._renderMain()}
           </Route>
           <Route exact path="/dev-component">
-            <MoviePage film={filmsShow[0]}/>
+            <MoviePage film={films[0]}/>
           </Route>
         </Switch>
       </BrowserRouter>
@@ -90,29 +91,20 @@ App.propTypes = {
   filmPromoName: PropTypes.string.isRequired,
   filmPromoGenre: PropTypes.string.isRequired,
   filmPromoDate: PropTypes.number.isRequired,
-  filmsShow: PropTypes.array.isRequired,
-  allFilms: PropTypes.array.isRequired,
+  films: PropTypes.array.isRequired,
   filmsShowTo: PropTypes.number.isRequired,
-  onFilterClick: PropTypes.func.isRequired,
   onShowMoreClick: PropTypes.func.isRequired,
+  onFilterClick: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   sortGenre: state.sortGenre,
-  filmsShow: state.filmsShow,
   films: state.films,
-  allFilms: state.allFilms,
   filmsShowTo: state.filmsShowTo
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onFilterClick(id) {
-    console.log(`ActionCreator.onFilterClick`);
-    dispatch(ActionCreator.filterChange(id));
-  },
-
   onShowMoreClick() {
-    console.log(`ActionCreator.sliceFilms`);
     dispatch(ActionCreator.sliceFilms());
   }
 });

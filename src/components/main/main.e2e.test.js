@@ -53,7 +53,8 @@ it(`Should title button be pressed`, () => {
 
   const store = mockStore({
     sortGenre: `All genres`,
-    allFilms: films,
+    films,
+    filmsShowTo: 8,
     filmsShow: films
   });
 
@@ -64,6 +65,7 @@ it(`Should title button be pressed`, () => {
           filmPromoGenre={FilmPromo.genre}
           filmPromoDate={FilmPromo.releaseDate}
           films={films}
+          filmsShow={films}
           allGenres={allGenres}
           onFilterClick={onFilterClick}
           onClick={onClick}

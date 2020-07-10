@@ -6,7 +6,7 @@ import GenresList from "../genres-list/genres-list.jsx";
 import ShowMore from "../show-more/show-more.jsx";
 
 const Main = (props) => {
-  const {filmPromoName, filmPromoGenre, filmPromoDate, films,filmsShow, onClick, onFilterClick,onShowMoreClick, allGenres} = props;
+  const {filmPromoName, filmPromoGenre, filmPromoDate, films, filmsShow, onClick, onFilterClick, onShowMoreClick} = props;
 
 
   return <React.Fragment>
@@ -71,14 +71,14 @@ const Main = (props) => {
       <section className="catalog">
         <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-        <GenresList genres={allGenres} onFilterClick={onFilterClick} sortGenre={`all-genres`}/>
+        <GenresList films={films} onFilterClick={onFilterClick} sortGenre={`all-genres`}/>
 
         <MovieList
-          films={films}
+          films={filmsShow}
           onClick={onClick}
         />
 
-        {filmsShow.length > 9 &&
+        {films.length > 9 &&
           <ShowMore
             onShowMoreClick={onShowMoreClick}
           />
@@ -115,13 +115,12 @@ Main.propTypes = {
   ).isRequired,
   onClick: PropTypes.func.isRequired,
   onFilterClick: PropTypes.func.isRequired,
-  allGenres: PropTypes.array.isRequired,
+  onShowMoreClick: PropTypes.func.isRequired,
+  filmsShow: PropTypes.array.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  filmsShow: state.filmsShow,
-  allFilms: state.allFilms,
-  sortGenre: state.sortGenre,
+  films: state.films,
 });
 
 export {Main};

@@ -7,7 +7,7 @@ Array [
   >
     <li
       className="catalog__genres-item
-           "
+           catalog__genres-item--active"
     >
       <a
         className="catalog__genres-link"
@@ -16,19 +16,6 @@ Array [
         onClick={[Function]}
       >
         All genres
-      </a>
-    </li>
-    <li
-      className="catalog__genres-item
-           "
-    >
-      <a
-        className="catalog__genres-link"
-        href="#"
-        id="drama"
-        onClick={[Function]}
-      >
-        drama
       </a>
     </li>
     <li

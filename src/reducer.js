@@ -3,16 +3,15 @@ import films from "./mocks/films.js";
 
 const initialState = {
   sortGenre: `All genres`,
-  allFilms: films,
-  filmsShow: films,
+  films: films,
+  //filmsShow: films,
   filmsShowTo: 8
 };
 
 
 let sliceFilms = (state = initialState) => {
-  console.log(state.filmsShow);
   return extend(state, {
-    filmsShow: state.filmsShow.slice(0, 8)
+    allFilms: initialState.films.slice(0, 8)
   });
 };
 
@@ -57,13 +56,13 @@ const reducer = (state = initialState, action) => {
       if (action.payload === `All genres`) {
         return extend(state, {
           sortGenre: `All genres`,
-          filmsShow: state.allFilms,
+          films: initialState.films,
           filmsShowTo: 8
         });
       }
       return extend(state, {
         sortGenre: action.payload,
-        filmsShow: getSortedFilms(films, action.payload),
+        films: getSortedFilms(films, action.payload),
         filmsShowTo: 8
       });
 

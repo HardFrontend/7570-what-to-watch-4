@@ -7,7 +7,7 @@ const VideoPlayerWrapped = withVideo(SmallPlayer);
 
 const SmallMovieCard = (props) => {
 
-  const {film, onClick, isPlaying, onHover, onMouseEnter, onMouseLeave} = props;
+  const {film, onClick, isPlaying, onMouseEnter, onMouseLeave} = props;
 
   return <React.Fragment>
     <article className="small-movie-card catalog__movies-card"
@@ -45,7 +45,6 @@ SmallMovieCard.propTypes = {
     videosrc: PropTypes.string.isRequired,
   }).isRequired,
   onClick: PropTypes.func.isRequired,
-  //onHover: PropTypes.func.isRequired,
   onMouseEnter: PropTypes.func.isRequired,
   onMouseLeave: PropTypes.func.isRequired,
   isPlaying: PropTypes.bool.isRequired,

@@ -8,6 +8,7 @@ const WithActivePlayItemWrapper = withActivePlayItem(SmallMovieCard);
 const MovieList = (props) => {
   const {films, onClick} = props;
 
+
   return <React.Fragment>
     <div className="catalog__movies-list">
       {films.map((film) => (
