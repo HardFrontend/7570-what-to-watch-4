@@ -8,17 +8,13 @@ class GenresList extends PureComponent {
     super(props);
 
     this.films = this.props.films;
-    console.log(this.props);
     this.getGenresList = this.getGenresList.bind(this);
   }
 
   getGenresList() {
     let array1 = [`All genres`];
-    console.log(this.films)
 
     this.films.forEach((film) => array1.push(film.genre));
-
-    console.log(new Set(array1));
     array1 = Array.from(new Set(array1)).slice(0, 9);
 
     return array1;

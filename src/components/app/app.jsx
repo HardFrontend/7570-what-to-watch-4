@@ -5,6 +5,7 @@ import {ActionCreator} from "../../reducer.js";
 import PropTypes from "prop-types";
 import Main from "../main/main.jsx";
 import MoviePage from "../movie-page/movie-page.jsx";
+import VideoPlayer from "../video-player/video-player.jsx";
 
 
 class App extends PureComponent {
@@ -24,27 +25,25 @@ class App extends PureComponent {
     });
   }
 
-  _allGenres(films) {
-    let array1 = [`All genres`];
-    films.forEach((film) => array1.push(film.genre));
-    console.log(new Set(array1));
-    array1 = Array.from(new Set(array1)).slice(0, 9);
-    return array1;
+  _getAllGenres(films) {
+    let genres = [`All genres`];
+    films.forEach((film) => genres.push(film.genre));
+    genres = Array.from(new Set(genres)).slice(0, 9);
+    return genres;
   }
 
   _renderMain() {
-    const {filmPromoName, filmPromoGenre, filmPromoDate, films, onFilterClick, onShowMoreClick, filmsShowTo = 8} = this.props;
+    const {filmPromoName, filmPromoGenre, filmPromoDate, films, onShowMoreClick, filmsShowTo, playableMovie} = this.props;
     const {activeFilm} = this.state;
-    const allGenres = this._allGenres(films);
+    const allGenres = this._getAllGenres(films);
 
     let filmsSlised = () => {
       return films.slice(0, filmsShowTo);
     };
-    console.log(filmsSlised());
     filmsSlised();
 
 
-    if (!activeFilm) {
+    if (!activeFilm && !playableMovie) {
       return (
         <Main
           filmPromoName={filmPromoName}
@@ -53,7 +52,6 @@ class App extends PureComponent {
           films={films}
           filmsShow={filmsSlised()}
           onClick={this._handleClick}
-          onFilterClick={onFilterClick}
           allGenres={allGenres}
           onShowMoreClick={onShowMoreClick}
         />);
@@ -64,6 +62,19 @@ class App extends PureComponent {
         <MoviePage film={films.find((film) => film.id === activeFilm)}/>
       )
       ;
+    }
+
+    if (playableMovie) {
+      console.log(playableMovie);
+      const film = playableMovie;
+
+      return (
+        <VideoPlayer poster={film.img}
+          src={film.videosrc}
+          isMuted={true}
+          isPlaying={true}
+          width="280" height="175" />
+      );
     }
 
     return null;
@@ -94,13 +105,13 @@ App.propTypes = {
   films: PropTypes.array.isRequired,
   filmsShowTo: PropTypes.number.isRequired,
   onShowMoreClick: PropTypes.func.isRequired,
-  onFilterClick: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   sortGenre: state.sortGenre,
   films: state.films,
-  filmsShowTo: state.filmsShowTo
+  filmsShowTo: state.filmsShowTo,
+  playableMovie: state.playableMovie
 });
 
 const mapDispatchToProps = (dispatch) => ({
