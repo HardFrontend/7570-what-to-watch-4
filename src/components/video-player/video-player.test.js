@@ -21,6 +21,7 @@ it(`VideoPlayer render`, () => {
       preload="none"
       loop={true}
       autoPlay={false}
+      isPlaying={true}
     />, {
       createNodeMock: () => {
         return {};
