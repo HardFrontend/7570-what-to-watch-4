@@ -7,7 +7,7 @@ import ShowMore from "../show-more/show-more.jsx";
 import Promo from "../promo/promo.jsx";
 
 const Main = (props) => {
-  const {filmPromoName, filmPromoGenre, filmPromoDate, films, filmsShow, onClick, onShowMoreClick} = props;
+  const {films, filmsShow, onClick, onShowMoreClick} = props;
 
 
   return <React.Fragment>

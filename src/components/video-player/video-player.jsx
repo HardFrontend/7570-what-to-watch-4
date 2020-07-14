@@ -10,26 +10,29 @@ class VideoPlayer extends PureComponent {
   }
 
   componentDidMount() {
-    const {isMuted, poster, src, width, height} = this.props;
+    const {poster, src} = this.props;
     const video = this._videoRef.current;
-    if (isMuted) {
-      video.muted = true;
-    }
 
     video.poster = poster;
     video.src = src;
-    video.width = width;
-    video.height = height;
+  }
+
+  onPlay() {
+    const video = this._videoRef.current;
+    const videoPlay = () => {
+      video.play();
+    };
+    this._videoTimer = setTimeout(videoPlay, 1000);
   }
 
   componentDidUpdate() {
     const video = this._videoRef.current;
-    const {isPlaying} = this.props;
 
-    if (isPlaying) {
-      video.play();
+    if (this.props.isPlaying) {
+      this.onPlay();
     } else {
-      video.pause();
+      clearTimeout(this._videoTimer);
+      video.load();
     }
   }
 
@@ -49,8 +52,6 @@ class VideoPlayer extends PureComponent {
     return <React.Fragment>
       <video
         preload="none"
-        width="280"
-        height="175"
         loop={true}
         autoPlay={false}
         src={src}
@@ -60,6 +61,9 @@ class VideoPlayer extends PureComponent {
     </React.Fragment>;
   }
 }
-
+VideoPlayer.propTypes = {
+  src: PropTypes.string.isRequired,
+  poster: PropTypes.string.isRequired,
+};
 
 export default VideoPlayer;

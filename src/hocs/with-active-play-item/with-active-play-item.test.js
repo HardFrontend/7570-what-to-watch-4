@@ -13,13 +13,6 @@ const MockComponent = (props) => {
   );
 };
 
-MockComponent.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node
-  ]).isRequired,
-};
-
 const MockComponentWrapped = withActivePlayItem(MockComponent);
 
 it(`withActivePlayItem is rendered correctly`, () => {

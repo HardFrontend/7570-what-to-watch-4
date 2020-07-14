@@ -52,6 +52,7 @@ const allGenres = [`All genres`, `drama`, `comedy`];
 
 const onClick = () => {};
 const onFilterClick = () => {};
+const onShowMoreClick = () => {};
 
 it(`Main should render films & Promo`, () => {
   const store = mockStore({
@@ -72,6 +73,7 @@ it(`Main should render films & Promo`, () => {
             filmsShow={films}
             onClick={onClick}
             onFilterClick={onFilterClick}
+            onShowMoreClick={onShowMoreClick}
             allGenres={allGenres}
           />, </Provider>, {
           createNodeMock: () => {

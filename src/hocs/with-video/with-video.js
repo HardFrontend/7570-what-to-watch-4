@@ -9,27 +9,74 @@ const withVideo = (Component) => {
       this._videoRef = createRef();
 
       this.state = {
-        isPlaying: props.isPlaying
+        isPlaying: props.isPlaying,
+        isFullScreenMode: false,
+        isControllersVisible: true,
+        progress: 0,
+        timeLeft: `00:00:00`,
       };
+
+      this.handleFullScreenClick = this.handleFullScreenClick.bind(this);
+      this.handleFullScreenHover = this.handleFullScreenHover.bind(this);
+      this.handleFullScreenMouseOver = this.handleFullScreenMouseOver.bind(this);
+      this.handlePlayClick = this.handlePlayClick.bind(this);
+    }
+
+    handleFullScreenClick() {
+      this.setState(()=>({
+        isFullScreenMode: true,
+        isControllersVisible: false,
+      }));
+    }
+
+    handleFullScreenHover() {
+      this.setState(()=>({
+        isControllersVisible: true
+      }));
+    }
+
+    handleFullScreenMouseOver() {
+      if (this.state.isPlaying) {
+        this.setState(()=>({
+          isControllersVisible: false
+        }));
+      }
+    }
+
+    handlePlayClick() {
+      this.setState({
+        isPlaying: !this.state.isPlaying
+      });
     }
 
 
     componentDidMount() {
-      const {isMuted, poster, src, width, height} = this.props;
+      const {poster, src} = this.props;
       const video = this._videoRef.current;
-      if (isMuted) {
-        video.muted = true;
-      }
+
 
       video.poster = poster;
       video.src = src;
-      video.width = width;
-      video.height = height;
+
+      video.onloadedmetadata = () => {
+        video.ontimeupdate = () =>
+          this.setState({
+            progress: (Math.floor(video.currentTime) * 100) / video.duration,
+            timeLeft: this.secondsToTime(video.duration - video.currentTime),
+          });
+      };
+    }
+
+    secondsToTime(seconds) {
+      const date = new Date(0);
+      date.setSeconds(seconds);
+      const timeString = date.toISOString().substr(11, 8);
+      return timeString;
     }
 
     componentDidUpdate() {
       const video = this._videoRef.current;
-      const {isPlaying} = this.props;
+      const {isPlaying} = this.state;
 
       if (isPlaying) {
         video.play();
@@ -49,15 +96,27 @@ const withVideo = (Component) => {
     }
 
     render() {
-      const {isPlaying} = this.state;
+      const {isPlaying, autoPlay, isControllersVisible,progress,timeLeft} = this.state;
 
       return (
         <Component
           {...this.props}
           isPlaying={isPlaying}
+          autoPlay={autoPlay}
+          progress={progress}
+          timeLeft={timeLeft}
+          onFullScreenClick={this.handleFullScreenClick}
+          handleFullScreenHover={this.handleFullScreenHover}
+          handlePlayClick={this.handlePlayClick}
+          handleFullScreenMouseOver={this.handleFullScreenMouseOver}
+          isControllersVisible={isControllersVisible}
         >
           <video
-            ref={this._videoRef}>
+            className="player__video"
+            autoPlay={true}
+            loop={false}
+            ref={this._videoRef}
+          >
           </video>
         </Component>
       );

@@ -50,6 +50,7 @@ const allGenres = [`All genres`, `drama`, `comedy`];
 it(`Should title button be pressed`, () => {
   const onClick = jest.fn();
   const onFilterClick = jest.fn();
+  const onShowMoreClick = jest.fn();
 
   const store = mockStore({
     sortGenre: `All genres`,
@@ -69,6 +70,7 @@ it(`Should title button be pressed`, () => {
           allGenres={allGenres}
           onFilterClick={onFilterClick}
           onClick={onClick}
+          onShowMoreClick={onShowMoreClick}
         /></Provider>
   );
 

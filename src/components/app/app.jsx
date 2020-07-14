@@ -5,8 +5,10 @@ import {ActionCreator} from "../../reducer.js";
 import PropTypes from "prop-types";
 import Main from "../main/main.jsx";
 import MoviePage from "../movie-page/movie-page.jsx";
-import VideoPlayer from "../video-player/video-player.jsx";
+import MovieViewingPage from "../movie-viewing-page/movie-viewing-page.jsx";
+import withVideo from "../../hocs/with-video/with-video";
 
+const MovieViewingPageWrapped = withVideo(MovieViewingPage);
 
 class App extends PureComponent {
   constructor(props) {
@@ -69,7 +71,7 @@ class App extends PureComponent {
       const film = playableMovie;
 
       return (
-        <VideoPlayer poster={film.img}
+        <MovieViewingPageWrapped poster={film.img}
           src={film.videosrc}
           isMuted={true}
           isPlaying={true}
