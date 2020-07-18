@@ -1,9 +1,10 @@
-import {extend} from "./utils.js";
-import films from "./mocks/films.js";
+import {extend} from "../utils.js";
+import films from "../mocks/films.js";
 
 const initialState = {
   sortGenre: `All genres`,
   films,
+  promoFilm: null,
   filmsShowTo: 8,
   playableMovie: null
 };

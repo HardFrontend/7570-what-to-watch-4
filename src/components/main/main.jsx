@@ -5,9 +5,11 @@ import MovieList from "../small-movie-card-list/small-movie-card-list.jsx";
 import GenresList from "../genres-list/genres-list.jsx";
 import ShowMore from "../show-more/show-more.jsx";
 import Promo from "../promo/promo.jsx";
+import {getFilms, getPromoFilm} from "../../reducer/data/selector.js";
+import {getCountDisplayedFilms} from "../../reducer/app-state/selector.js";
 
 const Main = (props) => {
-  const {filmPromoName, filmPromoGenre, filmPromoDate, films, filmsShow, onClick, onShowMoreClick} = props;
+  const {films, filmsShow, onClick, onShowMoreClick, isButtonDisplayed} = props;
 
 
   return <React.Fragment>
@@ -21,11 +23,11 @@ const Main = (props) => {
         <GenresList films={films} sortGenre={`all-genres`}/>
 
         <MovieList
-          films={filmsShow}
+          films={films}
           onClick={onClick}
         />
 
-        {films.length > 9 &&
+        {isButtonDisplayed &&
           <ShowMore
             onShowMoreClick={onShowMoreClick}
           />
@@ -52,9 +54,6 @@ const Main = (props) => {
 };
 
 Main.propTypes = {
-  filmPromoName: PropTypes.string.isRequired,
-  filmPromoGenre: PropTypes.string.isRequired,
-  filmPromoDate: PropTypes.number.isRequired,
   films: PropTypes.arrayOf(
       PropTypes.shape({
         title: PropTypes.string.isRequired,
@@ -62,12 +61,22 @@ Main.propTypes = {
   ).isRequired,
   onClick: PropTypes.func.isRequired,
   onShowMoreClick: PropTypes.func.isRequired,
-  filmsShow: PropTypes.array.isRequired,
+  isButtonDisplayed: PropTypes.bool.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  films: state.films,
-});
+const mapStateToProps = (state) => {
+  const countDisplayedFilms = getCountDisplayedFilms(state);
+  console.log(countDisplayedFilms);
 
+  const filmsState = getFilms(state);
+  const films = filmsState.slice(0, countDisplayedFilms);
+
+  const isButtonDisplayed = filmsState.length > countDisplayedFilms;
+
+  return {
+    films,
+    isButtonDisplayed
+  };
+};
 export {Main};
 export default connect(mapStateToProps)(Main);

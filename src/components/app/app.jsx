@@ -1,12 +1,17 @@
 import React, {PureComponent} from "react";
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 import {connect} from "react-redux";
-import {ActionCreator} from "../../reducer.js";
+import {ActionCreator} from "../../reducer/app-state/app-state.js";
 import PropTypes from "prop-types";
 import Main from "../main/main.jsx";
 import MoviePage from "../movie-page/movie-page.jsx";
 import VideoPlayer from "../video-player/video-player.jsx";
+import MovieViewingPage from "../movie-viewing-page/movie-viewing-page.jsx";
+import withVideo from "../../hocs/with-video/with-video";
+import {getFilms} from "../../reducer/data/selector.js";
+import {getPlayableMovie} from "../../reducer/app-state/selector.js";
 
+const MovieViewingPageWrapped = withVideo(MovieViewingPage);
 
 class App extends PureComponent {
   constructor(props) {
@@ -33,24 +38,15 @@ class App extends PureComponent {
   }
 
   _renderMain() {
-    const {filmPromoName, filmPromoGenre, filmPromoDate, films, onShowMoreClick, filmsShowTo, playableMovie} = this.props;
+    const {films, onShowMoreClick, filmsShowTo, playableMovie} = this.props;
     const {activeFilm} = this.state;
     const allGenres = this._getAllGenres(films);
-
-    let filmsSlised = () => {
-      return films.slice(0, filmsShowTo);
-    };
-    filmsSlised();
-
+    console.log(playableMovie);
 
     if (!activeFilm && !playableMovie) {
       return (
         <Main
-          filmPromoName={filmPromoName}
-          filmPromoGenre={filmPromoGenre}
-          filmPromoDate={filmPromoDate}
           films={films}
-          filmsShow={filmsSlised()}
           onClick={this._handleClick}
           allGenres={allGenres}
           onShowMoreClick={onShowMoreClick}
@@ -69,11 +65,11 @@ class App extends PureComponent {
       const film = playableMovie;
 
       return (
-        <VideoPlayer poster={film.img}
+        <MovieViewingPageWrapped poster={film.img}
           src={film.videosrc}
           isMuted={true}
           isPlaying={true}
-          width="280" height="175" />
+        />
       );
     }
 
@@ -99,24 +95,19 @@ class App extends PureComponent {
 }
 
 App.propTypes = {
-  filmPromoName: PropTypes.string.isRequired,
-  filmPromoGenre: PropTypes.string.isRequired,
-  filmPromoDate: PropTypes.number.isRequired,
   films: PropTypes.array.isRequired,
-  filmsShowTo: PropTypes.number.isRequired,
   onShowMoreClick: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   sortGenre: state.sortGenre,
-  films: state.films,
-  filmsShowTo: state.filmsShowTo,
-  playableMovie: state.playableMovie
+  films: getFilms(state),
+  playableMovie: getPlayableMovie(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onShowMoreClick() {
-    dispatch(ActionCreator.sliceFilms());
+    dispatch(ActionCreator.increaseCountDisplayedFilms());
   }
 });
 

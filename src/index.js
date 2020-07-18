@@ -1,26 +1,36 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import {createStore} from "redux";
+import {createStore, applyMiddleware, compose} from "redux";
+import {composeWithDevTools} from "redux-devtools-extension";
 import {Provider} from "react-redux";
+import thunk from "redux-thunk";
 import App from "./components/app/app.jsx";
-import {reducer} from "./reducer.js";
+import reducer from "./reducer/reducer.js";
+import {Operation as DataOperation} from "./reducer/data/data.js";
+import {Operation as UserOperation, ActionCreator, AuthorizationStatus} from "./reducer/user/user.js";
+import {createAPI} from "./api";
 
-const FilmPromo = {
-  name: `The Grand Budapest Hotel`,
-  genre: `Horor`,
-  releaseDate: 2010,
-};
+
+const api = createAPI(() => {
+  store.dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.NO_AUTH));
+});
+
 
 const store = createStore(
     reducer,
-    window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : (f) => f
+    compose(
+        applyMiddleware(thunk.withExtraArgument(api)),
+        window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : (f) => f
+    )
 );
+
+store.dispatch(DataOperation.loadPromo());
+
+store.dispatch(DataOperation.loadFilms());
+//store.dispatch(UserOperation.checkAuth());
 
 ReactDOM.render(
     <Provider store={store}>
-      <App filmPromoName={FilmPromo.name}
-        filmPromoGenre={FilmPromo.genre}
-        filmPromoDate={FilmPromo.releaseDate}
-      /> </Provider>,
+      <App/> </Provider>,
     document.querySelector(`#root`)
 );

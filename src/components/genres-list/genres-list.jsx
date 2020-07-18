@@ -1,7 +1,7 @@
 import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
-import {ActionCreator} from "../../reducer";
+import {ActionCreator} from "../../reducer/reducer";
 
 class GenresList extends PureComponent {
   constructor(props) {
@@ -51,7 +51,7 @@ GenresList.propTypes = {
 
 const mapStateToProps = (state) => ({
   sortGenre: state.sortGenre,
-  films: state.films,
+  films: state.DATA.films,
 });
 
 const mapDispatchToProps = (dispatch) => ({
