@@ -3,14 +3,28 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {ActionCreator} from "../../reducer/app-state/app-state.js";
 import {getPromoFilm} from "../../reducer/data/selector.js";
+import {getAuthorizationStatus} from "../../reducer/user/selector";
+import {AuthorizationStatus} from "./../../reducer/user/user.js";
 
 class Promo extends PureComponent {
   constructor(props) {
     super(props);
+
+    this.handleSignInClick = this.handleSignInClick.bind(this);
   }
+
+  handleSignInClick(evt) {
+    const {onSignInClick} = this.props;
+
+    evt.preventDefault();
+
+    onSignInClick();
+  }
+
   render() {
-    const {onPlayClick, promoFilm} = this.props;
-    const {title, posterSrc,img, genre,yearRelease} = promoFilm;
+    const {onPlayClick, promoFilm, authorizationStatus} = this.props;
+    const {title, posterSrc, img, genre, yearRelease} = promoFilm;
+    console.log(authorizationStatus);
 
     return <React.Fragment>
       <section className="movie-card">
@@ -30,9 +44,16 @@ class Promo extends PureComponent {
           </div>
 
           <div className="user-block">
+            {authorizationStatus === AuthorizationStatus.AUTH &&
+
             <div className="user-block__avatar">
               <img src={title} alt="User avatar" width="63" height="63"/>
             </div>
+            }
+
+            {authorizationStatus !== AuthorizationStatus.AUTH &&
+            <a className="" onClick={this.handleSignInClick}>Sign In</a>
+            }
           </div>
         </header>
 
@@ -78,13 +99,31 @@ class Promo extends PureComponent {
   }
 }
 
+Promo.propTypes = {
+  onPlayClick: PropTypes.func.isRequired,
+  film: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    posterSrc: PropTypes.string.isRequired,
+    movieCoverSrc: PropTypes.string.isRequired,
+    genre: PropTypes.string.isRequired,
+    yearRelease: PropTypes.number.isRequired,
+  }),
+  authorizationStatus: PropTypes.string.isRequired,
+  onSignInClick: PropTypes.func.isRequired,
+  avatar: PropTypes.string
+};
+
 const mapStateToProps = (state) => ({
-  promoFilm: getPromoFilm(state)
+  promoFilm: getPromoFilm(state),
+  authorizationStatus: getAuthorizationStatus(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onPlayClick(film) {
     dispatch(ActionCreator.movieToWatch(film));
+  },
+  onSignInClick() {
+    dispatch(ActionCreator.logIn(true));
   }
 });
 

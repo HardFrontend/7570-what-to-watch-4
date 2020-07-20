@@ -8,9 +8,13 @@ const getPlayableMovie = (state) => {
   return state[NameSpace.APP_STATE].playableMovie;
 };
 
-
 const getSortGenre = (state) => {
   return state[NameSpace.APP_STATE].sortGenre;
 };
 
-export {getCountDisplayedFilms, getPlayableMovie,getSortGenre};
+const getLogIn = (state) => {
+  return state[NameSpace.APP_STATE].logIn;
+};
+
+
+export {getCountDisplayedFilms, getPlayableMovie,getSortGenre, getLogIn};

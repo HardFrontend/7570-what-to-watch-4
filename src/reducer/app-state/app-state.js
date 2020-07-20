@@ -2,28 +2,33 @@ import {extend} from "./../../utils.js";
 
 const DISPLAYED_NUMBER_OF_FILMS = 8;
 
+const ServerStatus = {
+  ERROR: `ERROR`,
+  OK: `OK`
+};
+
 const initialState = {
   sortGenre: `All genres`,
   countDisplayedFilms: DISPLAYED_NUMBER_OF_FILMS,
-  playableMovie: null
+  playableMovie: null,
+  logIn: false,
+  serverStatus: ServerStatus.OK
 };
 
 const ActionType = {
   FILTER_CHANGE: `FILTER_CHANGE`,
   FILMS_FILTER: `FILMS_FILTER`,
-  SLICE_FILMS: `SLICE_FILMS`,
   MOVIE_TO_WATCH: `MOVIE_TO_WATCH`,
-  INCREASE_COUNT_DISPLAYED_FILMS: `INCREASE_COUNT_DISPLAYED_FILMS`
+  INCREASE_COUNT_DISPLAYED_FILMS: `INCREASE_COUNT_DISPLAYED_FILMS`,
+  LOG_IN: `LOG_IN`,
+  CHANGE_SERVER_STATUS_ON_ERROR: `CHANGE_SERVER_STATUS_ON_ERROR`,
+
 };
 
 const ActionCreator = {
   filterChange: (id) => ({
     type: ActionType.FILTER_CHANGE,
     payload: id
-  }),
-
-  sliceFilms: () => ({
-    type: ActionType.SLICE_FILMS,
   }),
 
   movieToWatch: (film) => ({
@@ -34,13 +39,22 @@ const ActionCreator = {
   increaseCountDisplayedFilms: (amount) => ({
     type: ActionType.INCREASE_COUNT_DISPLAYED_FILMS,
     payload: amount
+  }),
+
+  logIn: (status)=>({
+    type: ActionType.LOG_IN,
+    payload: status
+  }),
+
+  changeServerStatusOnError: ()=>({
+    type: ActionTypes.CHANGE_SERVER_STATUS_ON_ERROR,
+    payload: ServerStatus.ERROR
   })
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case ActionType.FILTER_CHANGE:
-      console.log(`state ` + state.sortGenre);
       if (action.payload === `All genres`) {
         return extend(state, {
           sortGenre: `All genres`,
@@ -50,28 +64,27 @@ const reducer = (state = initialState, action) => {
       }
       return extend(state, {
         sortGenre: action.payload,
-        //films: getSortedFilms(films, action.payload),
         countDisplayedFilms: DISPLAYED_NUMBER_OF_FILMS
       });
-
-    case ActionType.SLICE_FILMS:
-      console.log(`ActionType.SLICE_FILMS`);
-      return extend(state, {
-        filmsShowTo: state.filmsShowTo + 8,
-      });
     case ActionType.MOVIE_TO_WATCH:
-      console.log(`ActionType.MOVIE_TO_WATCH`);
       return extend(state, {
         playableMovie: action.payload
       });
     case ActionType.INCREASE_COUNT_DISPLAYED_FILMS:
-      console.log(`ActionType.INCREASE_COUNT_DISPLAYED_FILMS`);
       return extend(state, {
         countDisplayedFilms: state.countDisplayedFilms + DISPLAYED_NUMBER_OF_FILMS
       });
+    case ActionType.LOG_IN:
+      return extend(state, {
+        logIn: action.payload
+      });
+
+    case ActionType.CHANGE_SERVER_STATUS_ON_ERROR:
+      return extend(state, {
+        serverStatus: action.payload
+      });
   }
 
-  console.log(state);
   return state;
 };
 

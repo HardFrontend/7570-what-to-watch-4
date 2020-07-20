@@ -9,7 +9,9 @@ import VideoPlayer from "../video-player/video-player.jsx";
 import MovieViewingPage from "../movie-viewing-page/movie-viewing-page.jsx";
 import withVideo from "../../hocs/with-video/with-video";
 import {getPromoFilm, getFilteredFilms} from "../../reducer/data/selector.js";
-import {getPlayableMovie} from "../../reducer/app-state/selector.js";
+import {getPlayableMovie,getLogIn} from "../../reducer/app-state/selector.js";
+import {getAuthorizationStatus} from "../../reducer/user/selector.js";
+import {SignIn} from "../sign-in/sign-in.jsx";
 
 const MovieViewingPageWrapped = withVideo(MovieViewingPage);
 
@@ -38,15 +40,22 @@ class App extends PureComponent {
   }
 
   _renderMain() {
-    const {films, onShowMoreClick, playableMovie, promoFilm} = this.props;
-    const {activeFilm} = this.state;
+    const {films, onShowMoreClick, playableMovie, promoFilm, logIn} = this.props;
+    const {activeFilm, authorizationStatus} = this.state;
     const allGenres = this._getAllGenres(films);
-    console.log(promoFilm);
+
+    if (!authorizationStatus) {
+      console.log(`Нет авторизации`)
+    }
 
     if (!films.length || !promoFilm) {
-      console.log(`error`)
+      console.log(`error`);
       return <div style={{backgroundColor: `red`, textAlign: `center`}}>У нашего сервера что не так</div>;
-    } else
+    }
+
+    if (logIn) {
+      return <SignIn />;
+    }
 
     if (!activeFilm && !playableMovie) {
       return (
@@ -59,6 +68,8 @@ class App extends PureComponent {
     }
 
     if (activeFilm) {
+      console.log(`activeFilm`);
+
       return (
         <MoviePage film={films.find((film) => film.id === activeFilm)}/>
       )
@@ -108,7 +119,9 @@ const mapStateToProps = (state) => ({
   sortGenre: state.sortGenre,
   films: getFilteredFilms(state),
   playableMovie: getPlayableMovie(state),
-  promoFilm: getPromoFilm(state)
+  promoFilm: getPromoFilm(state),
+  authorizationStatus: getAuthorizationStatus(state),
+  logIn: getLogIn(state),
 });
 
 
