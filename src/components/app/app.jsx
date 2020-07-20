@@ -8,7 +8,7 @@ import MoviePage from "../movie-page/movie-page.jsx";
 import VideoPlayer from "../video-player/video-player.jsx";
 import MovieViewingPage from "../movie-viewing-page/movie-viewing-page.jsx";
 import withVideo from "../../hocs/with-video/with-video";
-import {getFilms} from "../../reducer/data/selector.js";
+import {getPromoFilm, getFilteredFilms} from "../../reducer/data/selector.js";
 import {getPlayableMovie} from "../../reducer/app-state/selector.js";
 
 const MovieViewingPageWrapped = withVideo(MovieViewingPage);
@@ -38,10 +38,15 @@ class App extends PureComponent {
   }
 
   _renderMain() {
-    const {films, onShowMoreClick, filmsShowTo, playableMovie} = this.props;
+    const {films, onShowMoreClick, playableMovie, promoFilm} = this.props;
     const {activeFilm} = this.state;
     const allGenres = this._getAllGenres(films);
-    console.log(playableMovie);
+    console.log(promoFilm);
+
+    if (!films.length || !promoFilm) {
+      console.log(`error`)
+      return <div style={{backgroundColor: `red`, textAlign: `center`}}>У нашего сервера что не так</div>;
+    } else
 
     if (!activeFilm && !playableMovie) {
       return (
@@ -101,9 +106,11 @@ App.propTypes = {
 
 const mapStateToProps = (state) => ({
   sortGenre: state.sortGenre,
-  films: getFilms(state),
-  playableMovie: getPlayableMovie(state)
+  films: getFilteredFilms(state),
+  playableMovie: getPlayableMovie(state),
+  promoFilm: getPromoFilm(state)
 });
+
 
 const mapDispatchToProps = (dispatch) => ({
   onShowMoreClick() {

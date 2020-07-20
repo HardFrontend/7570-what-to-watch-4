@@ -11,9 +11,6 @@ class Promo extends PureComponent {
   render() {
     const {onPlayClick, promoFilm} = this.props;
     const {title, posterSrc,img, genre,yearRelease} = promoFilm;
-    console.log(title);
-    // const title = film.title;
-    // console.log(`title ` + title)
 
     return <React.Fragment>
       <section className="movie-card">
@@ -87,7 +84,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   onPlayClick(film) {
-    console.log(`onPlayClick`)
     dispatch(ActionCreator.movieToWatch(film));
   }
 });

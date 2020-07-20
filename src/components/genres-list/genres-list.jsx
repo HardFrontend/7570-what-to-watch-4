@@ -1,28 +1,31 @@
 import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
-import {ActionCreator} from "../../reducer/reducer";
+import {ActionCreator} from "../../reducer/app-state/app-state.js";
+import {getFilms} from "../../reducer/data/selector.js";
+import {ActionCreator as dataActionCreator} from "../../reducer/data/data.js";
+import {getSortGenre} from "../../reducer/app-state/selector.js";
 
 class GenresList extends PureComponent {
   constructor(props) {
     super(props);
 
-    this.films = this.props.films;
     this.getGenresList = this.getGenresList.bind(this);
   }
 
   getGenresList() {
-    let array1 = [`All genres`];
+    let genres = [`All genres`];
+    const {films} = this.props;
+    films.forEach((film) => genres.push(film.genre));
+    genres = Array.from(new Set(genres)).slice(0, 9);
 
-    this.films.forEach((film) => array1.push(film.genre));
-    array1 = Array.from(new Set(array1)).slice(0, 9);
-
-    return array1;
+    return genres;
   }
 
   render() {
     const {sortGenre, onFilterClick} = this.props;
     const genresList = this.getGenresList();
+    console.log(sortGenre)
 
     return <React.Fragment>
       <ul className="catalog__genres-list">
@@ -47,16 +50,18 @@ class GenresList extends PureComponent {
 GenresList.propTypes = {
   onFilterClick: PropTypes.func.isRequired,
   sortGenre: PropTypes.string.isRequired,
+  films: PropTypes.array.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  sortGenre: state.sortGenre,
-  films: state.DATA.films,
+  films: getFilms(state),
+  sortGenre: getSortGenre(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onFilterClick(id) {
     dispatch(ActionCreator.filterChange(id));
+    dispatch(dataActionCreator.setGenreForFilter(id));
   },
 });
 

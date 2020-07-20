@@ -50,8 +50,8 @@ const reducer = (state = initialState, action) => {
       }
       return extend(state, {
         sortGenre: action.payload,
-        films: getSortedFilms(films, action.payload),
-        filmsShowTo: 8
+        //films: getSortedFilms(films, action.payload),
+        countDisplayedFilms: DISPLAYED_NUMBER_OF_FILMS
       });
 
     case ActionType.SLICE_FILMS:

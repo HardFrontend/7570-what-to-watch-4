@@ -1,4 +1,3 @@
-
 import React, {PureComponent} from "react";
 import PropTypes from 'prop-types';
 
@@ -11,18 +10,13 @@ class VideoPlayer extends PureComponent {
   }
 
   componentDidMount() {
-    const {poster, src, isPlaying} = this.props;
+    const {poster, src, width, height} = this.props;
     const video = this._videoRef.current;
 
     video.poster = poster;
     video.src = src;
-
-    if (isPlaying) {
-      this.onPlay();
-    } else {
-      clearTimeout(this._videoTimer);
-      video.load();
-    }
+    video.width = width;
+    video.height = height;
   }
 
   onPlay() {
@@ -61,7 +55,7 @@ class VideoPlayer extends PureComponent {
       <video
         preload="none"
         loop={true}
-        autoPlay={true}
+        autoPlay={false}
         src={src}
         poster={poster}
         ref={this._videoRef}
@@ -72,6 +66,8 @@ class VideoPlayer extends PureComponent {
 VideoPlayer.propTypes = {
   src: PropTypes.string.isRequired,
   poster: PropTypes.string.isRequired,
+  width: PropTypes.string.isRequired,
+  height: PropTypes.string.isRequired,
   isPlaying: PropTypes.bool.isRequired,
 };
 

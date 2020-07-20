@@ -1,9 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import SmallPlayer from "../small-player/small-player.jsx";
-import withVideo from "../../hocs/with-video/with-video";
+import VideoPlayer from "../video-player/video-player.jsx";
 
-const VideoPlayerWrapped = withVideo(SmallPlayer);
 
 const SmallMovieCard = (props) => {
 
@@ -15,7 +13,7 @@ const SmallMovieCard = (props) => {
       onMouseLeave={onMouseLeave}
     >
       <div className="small-movie-card__image">
-        <VideoPlayerWrapped
+        <VideoPlayer
           poster={film.img}
           src={film.videosrc}
           isMuted={true}

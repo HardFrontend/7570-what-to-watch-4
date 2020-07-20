@@ -7,9 +7,11 @@ import ShowMore from "../show-more/show-more.jsx";
 import Promo from "../promo/promo.jsx";
 import {getFilms, getPromoFilm} from "../../reducer/data/selector.js";
 import {getCountDisplayedFilms} from "../../reducer/app-state/selector.js";
+import {getSortGenre} from "../../reducer/app-state/selector";
+import {getFilteredFilms} from "../../reducer/data/selector";
 
 const Main = (props) => {
-  const {films, filmsShow, onClick, onShowMoreClick, isButtonDisplayed} = props;
+  const {films, onClick, onShowMoreClick, isButtonDisplayed} = props;
 
 
   return <React.Fragment>
@@ -66,16 +68,15 @@ Main.propTypes = {
 
 const mapStateToProps = (state) => {
   const countDisplayedFilms = getCountDisplayedFilms(state);
-  console.log(countDisplayedFilms);
-
-  const filmsState = getFilms(state);
+  const filmsState = getFilteredFilms(state);
   const films = filmsState.slice(0, countDisplayedFilms);
-
   const isButtonDisplayed = filmsState.length > countDisplayedFilms;
+  const sortGenre = getSortGenre(state);
 
   return {
     films,
-    isButtonDisplayed
+    isButtonDisplayed,
+    sortGenre
   };
 };
 export {Main};

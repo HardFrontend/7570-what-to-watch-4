@@ -4,9 +4,13 @@ const getCountDisplayedFilms = (state) => {
   return state[NameSpace.APP_STATE].countDisplayedFilms;
 };
 
-
 const getPlayableMovie = (state) => {
   return state[NameSpace.APP_STATE].playableMovie;
 };
 
-export {getCountDisplayedFilms, getPlayableMovie};
+
+const getSortGenre = (state) => {
+  return state[NameSpace.APP_STATE].sortGenre;
+};
+
+export {getCountDisplayedFilms, getPlayableMovie,getSortGenre};

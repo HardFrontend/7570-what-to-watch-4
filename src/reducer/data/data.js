@@ -4,13 +4,15 @@ import {adapterForArray, adapter} from "../../adapters/films.js";
 
 const initialState = {
   films: [],
-  promoFilm: {}
+  promoFilm: {},
+  genreForFilter: `All genres`,
 };
 
 
 const ActionType = {
   LOAD_FILMS: `LOAD_FILMS`,
   LOAD_PROMO: `LOAD_PROMO`,
+  SET_GENRE_FOR_FILTER: `SET_GENRE_FOR_FILTER`,
 };
 
 const ActionCreator = {
@@ -24,6 +26,12 @@ const ActionCreator = {
     return {
       type: ActionType.LOAD_PROMO,
       payload: promoFilm,
+    };
+  },
+  setGenreForFilter: (genre) => {
+    return {
+      type: ActionType.SET_GENRE_FOR_FILTER,
+      payload: genre,
     };
   },
 };
@@ -55,8 +63,13 @@ const reducer = (state = initialState, action) => {
       return extend(state, {
         promoFilm: action.payload,
       });
+    case ActionType.SET_GENRE_FOR_FILTER:
+      return extend(state, {
+        genreForFilter: action.payload,
+      });
   }
 
+  console.log(state)
   return state;
 };
 
