@@ -2,6 +2,10 @@
 
 exports[`withVideo is rendered correctly 1`] = `
 <div>
-  <video />
+  <video
+    autoPlay={true}
+    className="player__video"
+    loop={false}
+  />
 </div>
 `;

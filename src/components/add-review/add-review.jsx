@@ -24,10 +24,6 @@ class AddReview extends PureComponent {
     const form = this.formRef.current;
     const formData = new FormData(form);
 
-    console.log(`onSubmit`);
-    console.log(formData.get(`rating`));
-    console.log(formData.get(`review-text`));
-
     evt.preventDefault();
     onSubmit({
       rating: formData.get(`rating`),

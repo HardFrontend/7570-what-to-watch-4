@@ -12,7 +12,13 @@ exports[`MovieList render  1`] = `
     <div
       className="small-movie-card__image"
     >
-      <video />
+      <video
+        autoPlay={false}
+        loop={true}
+        poster="img/fantastic-beasts-the-crimes-of-grindelwald.jpg"
+        preload="none"
+        src="https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4"
+      />
     </div>
     <h3
       className="small-movie-card__title"
@@ -34,7 +40,13 @@ exports[`MovieList render  1`] = `
     <div
       className="small-movie-card__image"
     >
-      <video />
+      <video
+        autoPlay={false}
+        loop={true}
+        poster="img/bohemian-rhapsody.jpg"
+        preload="none"
+        src="https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4"
+      />
     </div>
     <h3
       className="small-movie-card__title"
@@ -56,7 +68,13 @@ exports[`MovieList render  1`] = `
     <div
       className="small-movie-card__image"
     >
-      <video />
+      <video
+        autoPlay={false}
+        loop={true}
+        poster="img/macbeth.jpg"
+        preload="none"
+        src="https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4"
+      />
     </div>
     <h3
       className="small-movie-card__title"
@@ -78,7 +96,13 @@ exports[`MovieList render  1`] = `
     <div
       className="small-movie-card__image"
     >
-      <video />
+      <video
+        autoPlay={false}
+        loop={true}
+        poster="img/aviator.jpg"
+        preload="none"
+        src="https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4"
+      />
     </div>
     <h3
       className="small-movie-card__title"
