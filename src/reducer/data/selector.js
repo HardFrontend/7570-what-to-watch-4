@@ -23,4 +23,13 @@ const getFilteredFilms = createSelector(
       return films.filter((film) => film.genre === genre);
     }
 );
-export {getFilms, getPromoFilm, getFilteredFilms};
+
+const getFlagCommentPublishing = (state) => {
+  return state[NameSpace.DATA].isCommentPublishing;
+};
+
+const getFlagCommentSendingError = (state) => {
+  return state[NameSpace.DATA].isCommentSendingError;
+};
+
+export {getFilms, getPromoFilm, getFilteredFilms, getFlagCommentPublishing, getFlagCommentSendingError};

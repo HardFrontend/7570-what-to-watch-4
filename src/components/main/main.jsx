@@ -79,5 +79,6 @@ const mapStateToProps = (state) => {
     sortGenre
   };
 };
+
 export {Main};
 export default connect(mapStateToProps)(Main);

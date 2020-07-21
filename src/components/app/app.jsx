@@ -9,15 +9,17 @@ import VideoPlayer from "../video-player/video-player.jsx";
 import MovieViewingPage from "../movie-viewing-page/movie-viewing-page.jsx";
 import withVideo from "../../hocs/with-video/with-video";
 import {getPromoFilm, getFilteredFilms} from "../../reducer/data/selector.js";
-import {getPlayableMovie,getLogIn} from "../../reducer/app-state/selector.js";
+import {getPlayableMovie, getLogIn} from "../../reducer/app-state/selector.js";
 import {getAuthorizationStatus} from "../../reducer/user/selector.js";
 import {SignIn} from "../sign-in/sign-in.jsx";
+import {AddReview} from "../add-review/add-review.jsx";
 
 const MovieViewingPageWrapped = withVideo(MovieViewingPage);
 
 class App extends PureComponent {
   constructor(props) {
     super(props);
+    this.films = this.props.films;
 
     this.state = {
       activeFilm: null
@@ -45,7 +47,7 @@ class App extends PureComponent {
     const allGenres = this._getAllGenres(films);
 
     if (!authorizationStatus) {
-      console.log(`Нет авторизации`)
+      console.log(`Нет авторизации`);
     }
 
     if (!films.length || !promoFilm) {
@@ -103,6 +105,9 @@ class App extends PureComponent {
           </Route>
           <Route exact path="/dev-component">
             <MoviePage film={films[0]}/>
+          </Route>
+          <Route exact path="/dev-review">
+            <AddReview onSubmit={()=>{}}/>
           </Route>
         </Switch>
       </BrowserRouter>
