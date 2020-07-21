@@ -23,7 +23,7 @@ class Promo extends PureComponent {
 
   render() {
     const {onPlayClick, promoFilm, authorizationStatus} = this.props;
-    const {title, posterSrc, img, genre, yearRelease} = promoFilm;
+    const {title, posterSrc, img,movieCoverSrc, genre, yearRelease} = promoFilm;
     console.log(authorizationStatus);
 
     return <React.Fragment>
@@ -60,7 +60,7 @@ class Promo extends PureComponent {
         <div className="movie-card__wrap">
           <div className="movie-card__info">
             <div className="movie-card__poster">
-              <img src={img} alt={title} width="218"
+              <img src={movieCoverSrc} alt={title} width="218"
                 height="327"/>
             </div>
 
